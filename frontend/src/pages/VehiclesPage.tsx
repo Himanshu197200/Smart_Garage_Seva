@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Chip, IconButton, CircularProgress, Tooltip, Alert
+  TextField, IconButton, CircularProgress, Tooltip, Alert
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -13,41 +13,44 @@ import { Vehicle } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
 function VehicleCard({ vehicle, onEdit, onDelete }: {
-  vehicle: Vehicle;
-  onEdit: () => void;
-  onDelete: () => void;
+  vehicle: Vehicle; onEdit: () => void; onDelete: () => void;
 }) {
   return (
     <Paper elevation={0} sx={{
-      p: 2.5, borderRadius: '16px',
-      transition: 'border-color 0.2s',
-      border: '1px solid rgba(255,255,255,0.06)',
-      '&:hover': { borderColor: 'rgba(99,102,241,0.3)' }
+      p: '20px', borderRadius: '8px',
+      transition: 'all 0.15s ease',
+      '&:hover': { borderColor: '#D1D5DB', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 2 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box sx={{
-            width: 44, height: 44, borderRadius: '12px',
-            background: 'linear-gradient(135deg, rgba(99,102,241,0.25), rgba(14,165,233,0.15))',
+            width: 44, height: 44, borderRadius: '8px',
+            background: '#EFF6FF',
             display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
-            <DirectionsCarIcon sx={{ color: '#818cf8', fontSize: 22 }} />
+            <DirectionsCarIcon sx={{ color: '#2563EB', fontSize: 22 }} />
           </Box>
           <Box>
-            <Typography variant="subtitle2" fontWeight={700} sx={{ color: '#f1f5f9' }}>
+            <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>
               {vehicle.brand} {vehicle.modelName}
             </Typography>
-            <Chip label={vehicle.registrationNumber} size="small" sx={{ bgcolor: 'rgba(99,102,241,0.12)', color: '#818cf8', fontSize: 11, height: 20 }} />
+            <Box sx={{
+              display: 'inline-flex', px: '8px', py: '2px',
+              borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+              fontSize: 11, fontWeight: 500
+            }}>
+              {vehicle.registrationNumber}
+            </Box>
           </Box>
         </Box>
         <Box>
           <Tooltip title="Edit">
-            <IconButton size="small" onClick={onEdit} sx={{ color: '#64748b', '&:hover': { color: '#818cf8' } }}>
+            <IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}>
               <EditIcon fontSize="small" />
             </IconButton>
           </Tooltip>
           <Tooltip title="Delete">
-            <IconButton size="small" onClick={onDelete} sx={{ color: '#64748b', '&:hover': { color: '#ef4444' } }}>
+            <IconButton size="small" onClick={onDelete} sx={{ color: '#9CA3AF', '&:hover': { color: '#EF4444' } }}>
               <DeleteIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -55,14 +58,14 @@ function VehicleCard({ vehicle, onEdit, onDelete }: {
       </Box>
       <Box sx={{ display: 'flex', gap: 3 }}>
         <Box>
-          <Typography variant="caption" sx={{ color: '#64748b' }}>Year</Typography>
-          <Typography variant="body2" fontWeight={600} sx={{ color: '#f1f5f9' }}>{vehicle.year}</Typography>
+          <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Year</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>{vehicle.year}</Typography>
         </Box>
         <Box>
-          <Typography variant="caption" sx={{ color: '#64748b' }}>Mileage</Typography>
+          <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Mileage</Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <SpeedIcon sx={{ fontSize: 14, color: '#10b981' }} />
-            <Typography variant="body2" fontWeight={600} sx={{ color: '#f1f5f9' }}>{vehicle.currentMileage.toLocaleString()} km</Typography>
+            <SpeedIcon sx={{ fontSize: 14, color: '#10B981' }} />
+            <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>{vehicle.currentMileage.toLocaleString()} km</Typography>
           </Box>
         </Box>
       </Box>
@@ -83,52 +86,36 @@ export default function VehiclesPage() {
   const [error, setError] = useState('');
 
   const load = async () => {
-    try {
-      const data = await vehicleService.getMyVehicles();
-      setVehicles(data);
-    } finally {
-      setLoading(false);
-    }
+    try { const data = await vehicleService.getMyVehicles(); setVehicles(data); }
+    finally { setLoading(false); }
   };
-
   useEffect(() => { load(); }, []);
 
   const openAdd = () => {
     setEditVehicle(null);
     setForm({ ...EMPTY_FORM, garageId: user?.garageId || '' });
-    setError('');
-    setDialogOpen(true);
+    setError(''); setDialogOpen(true);
   };
 
   const openEdit = (v: Vehicle) => {
     setEditVehicle(v);
     setForm({ registrationNumber: v.registrationNumber, brand: v.brand, modelName: v.modelName, year: v.year, currentMileage: v.currentMileage, garageId: typeof v.garageId === 'string' ? v.garageId : '' });
-    setError('');
-    setDialogOpen(true);
+    setError(''); setDialogOpen(true);
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this vehicle?')) return;
-    await vehicleService.delete(id);
-    load();
+    await vehicleService.delete(id); load();
   };
 
   const handleSave = async () => {
-    setSaving(true);
-    setError('');
+    setSaving(true); setError('');
     try {
-      if (editVehicle) {
-        await vehicleService.update(editVehicle._id, form);
-      } else {
-        await vehicleService.create(form);
-      }
-      setDialogOpen(false);
-      load();
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to save vehicle');
-    } finally {
-      setSaving(false);
-    }
+      if (editVehicle) await vehicleService.update(editVehicle._id, form);
+      else await vehicleService.create(form);
+      setDialogOpen(false); load();
+    } catch (err: any) { setError(err.response?.data?.message || 'Failed to save vehicle'); }
+    finally { setSaving(false); }
   };
 
   const field = (key: keyof typeof form) => (e: any) => setForm(prev => ({ ...prev, [key]: e.target.value }));
@@ -137,15 +124,11 @@ export default function VehiclesPage() {
     <Box className="page-container fade-in">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9' }}>Vehicles</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b', mt: 0.5 }}>Manage your registered vehicles</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 24, color: '#111827' }}>Vehicles</Typography>
+          <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>Manage your registered vehicles</Typography>
         </Box>
-        <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          onClick={openAdd}
-          sx={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 16px rgba(99,102,241,0.4)' }}
-        >
+        <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}
+          sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
           Add Vehicle
         </Button>
       </Box>
@@ -153,11 +136,11 @@ export default function VehiclesPage() {
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : vehicles.length === 0 ? (
-        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '16px' }}>
-          <DirectionsCarIcon sx={{ fontSize: 56, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" fontWeight={600} sx={{ color: '#64748b' }}>No vehicles registered</Typography>
-          <Typography variant="body2" sx={{ color: '#475569', mb: 3 }}>Add your first vehicle to get started</Typography>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}>Add Vehicle</Button>
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '8px' }}>
+          <DirectionsCarIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
+          <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No vehicles registered</Typography>
+          <Typography sx={{ color: '#9CA3AF', mb: 3, fontSize: 14 }}>Add your first vehicle to get started</Typography>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd} sx={{ bgcolor: '#2563EB' }}>Add Vehicle</Button>
         </Paper>
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', lg: 'repeat(3,1fr)' }, gap: 2 }}>
@@ -167,8 +150,8 @@ export default function VehiclesPage() {
         </Box>
       )}
 
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>{editVehicle ? 'Edit Vehicle' : 'Register Vehicle'}</DialogTitle>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>{editVehicle ? 'Edit Vehicle' : 'Register Vehicle'}</DialogTitle>
         <DialogContent>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mt: 0.5 }}>
@@ -181,8 +164,8 @@ export default function VehiclesPage() {
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setDialogOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave} disabled={saving}>
+          <Button onClick={() => setDialogOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#2563EB' }}>
             {saving ? <CircularProgress size={18} color="inherit" /> : (editVehicle ? 'Save Changes' : 'Register')}
           </Button>
         </DialogActions>

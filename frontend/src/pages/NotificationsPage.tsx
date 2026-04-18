@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Paper, List, ListItem, ListItemText, ListItemIcon,
-  IconButton, Button, CircularProgress, Chip, Divider, Tooltip
+  IconButton, Button, CircularProgress, Divider, Tooltip
 } from '@mui/material';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsOffIcon from '@mui/icons-material/NotificationsOff';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,12 +11,21 @@ import { notificationService } from '../services/notificationService';
 import { Notification } from '../types';
 
 const TYPE_COLORS: Record<string, string> = {
-  JOB_STATUS_UPDATE: '#6366f1',
-  SERVICE_REMINDER: '#0ea5e9',
-  LOW_INVENTORY_ALERT: '#f59e0b',
-  RECOMMENDATION_ALERT: '#10b981',
-  JOB_ASSIGNED: '#8b5cf6',
-  PAYMENT_REMINDER: '#ef4444'
+  JOB_STATUS_UPDATE: '#2563EB',
+  SERVICE_REMINDER: '#3B82F6',
+  LOW_INVENTORY_ALERT: '#D97706',
+  RECOMMENDATION_ALERT: '#10B981',
+  JOB_ASSIGNED: '#8B5CF6',
+  PAYMENT_REMINDER: '#EF4444'
+};
+
+const TYPE_BG: Record<string, string> = {
+  JOB_STATUS_UPDATE: '#EFF6FF',
+  SERVICE_REMINDER: '#DBEAFE',
+  LOW_INVENTORY_ALERT: '#FEF3C7',
+  RECOMMENDATION_ALERT: '#D1FAE5',
+  JOB_ASSIGNED: '#EDE9FE',
+  PAYMENT_REMINDER: '#FEE2E2'
 };
 
 export default function NotificationsPage() {
@@ -51,13 +59,13 @@ export default function NotificationsPage() {
     <Box className="page-container fade-in">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9' }}>Notifications</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b', mt: 0.5 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 24, color: '#111827' }}>Notifications</Typography>
+          <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>
             {unread > 0 ? `${unread} unread` : 'All caught up'}
           </Typography>
         </Box>
         {unread > 0 && (
-          <Button startIcon={<DoneAllIcon />} onClick={handleMarkAll} sx={{ color: '#818cf8' }}>
+          <Button startIcon={<DoneAllIcon />} onClick={handleMarkAll} sx={{ color: '#2563EB' }}>
             Mark all as read
           </Button>
         )}
@@ -66,12 +74,12 @@ export default function NotificationsPage() {
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : notifications.length === 0 ? (
-        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '16px' }}>
-          <NotificationsOffIcon sx={{ fontSize: 56, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#64748b' }}>No notifications yet</Typography>
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '8px' }}>
+          <NotificationsOffIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
+          <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No notifications yet</Typography>
         </Paper>
       ) : (
-        <Paper elevation={0} sx={{ borderRadius: '16px', overflow: 'hidden' }}>
+        <Paper elevation={0} sx={{ borderRadius: '8px', overflow: 'hidden' }}>
           <List disablePadding>
             {notifications.map((notification, index) => (
               <React.Fragment key={notification._id}>
@@ -79,21 +87,21 @@ export default function NotificationsPage() {
                   alignItems="flex-start"
                   sx={{
                     py: 2, px: 2.5,
-                    background: notification.isRead ? 'transparent' : 'rgba(99,102,241,0.04)',
-                    '&:hover': { background: 'rgba(255,255,255,0.03)' },
-                    transition: 'background 0.2s'
+                    background: notification.isRead ? '#FFFFFF' : '#EFF6FF',
+                    '&:hover': { background: notification.isRead ? '#F9FAFB' : '#DBEAFE' },
+                    transition: 'background 0.15s'
                   }}
                   secondaryAction={
                     <Box sx={{ display: 'flex', gap: 0.5 }}>
                       {!notification.isRead && (
                         <Tooltip title="Mark as read">
-                          <IconButton size="small" onClick={() => handleMarkRead(notification._id)} sx={{ color: '#64748b', '&:hover': { color: '#818cf8' } }}>
+                          <IconButton size="small" onClick={() => handleMarkRead(notification._id)} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}>
                             <DoneAllIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
                       )}
                       <Tooltip title="Delete">
-                        <IconButton size="small" onClick={() => handleDelete(notification._id)} sx={{ color: '#64748b', '&:hover': { color: '#ef4444' } }}>
+                        <IconButton size="small" onClick={() => handleDelete(notification._id)} sx={{ color: '#9CA3AF', '&:hover': { color: '#EF4444' } }}>
                           <DeleteIcon fontSize="small" />
                         </IconButton>
                       </Tooltip>
@@ -102,7 +110,7 @@ export default function NotificationsPage() {
                 >
                   <ListItemIcon sx={{ minWidth: 32, mt: 0.5 }}>
                     {!notification.isRead ? (
-                      <FiberManualRecordIcon sx={{ fontSize: 10, color: '#6366f1', mt: 0.75 }} />
+                      <FiberManualRecordIcon sx={{ fontSize: 10, color: '#2563EB', mt: 0.75 }} />
                     ) : (
                       <Box sx={{ width: 10 }} />
                     )}
@@ -110,28 +118,28 @@ export default function NotificationsPage() {
                   <ListItemText
                     primary={
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                        <Typography variant="body2" fontWeight={notification.isRead ? 400 : 600} sx={{ color: '#f1f5f9', flex: 1 }}>
+                        <Typography sx={{ fontWeight: notification.isRead ? 400 : 600, fontSize: 14, color: '#111827', flex: 1 }}>
                           {notification.message}
                         </Typography>
-                        <Chip
-                          label={notification.type.replace(/_/g, ' ')}
-                          size="small"
-                          sx={{
-                            bgcolor: `${TYPE_COLORS[notification.type] || '#64748b'}18`,
-                            color: TYPE_COLORS[notification.type] || '#64748b',
-                            fontSize: 10, height: 20, flexShrink: 0
-                          }}
-                        />
+                        <Box sx={{
+                          display: 'inline-flex', px: '8px', py: '2px',
+                          borderRadius: '9999px', fontSize: 10, fontWeight: 500,
+                          bgcolor: TYPE_BG[notification.type] || '#F3F4F6',
+                          color: TYPE_COLORS[notification.type] || '#6B7280',
+                          flexShrink: 0, whiteSpace: 'nowrap'
+                        }}>
+                          {notification.type.replace(/_/g, ' ')}
+                        </Box>
                       </Box>
                     }
                     secondary={
-                      <Typography variant="caption" sx={{ color: '#64748b' }}>
+                      <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>
                         {notification.createdAt ? new Date(notification.createdAt).toLocaleString() : ''}
                       </Typography>
                     }
                   />
                 </ListItem>
-                {index < notifications.length - 1 && <Divider sx={{ borderColor: 'rgba(255,255,255,0.04)' }} />}
+                {index < notifications.length - 1 && <Divider sx={{ borderColor: '#E5E7EB' }} />}
               </React.Fragment>
             ))}
           </List>

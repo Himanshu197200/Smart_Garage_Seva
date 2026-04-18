@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Chip, IconButton, CircularProgress, Alert, LinearProgress, Tooltip
+  TextField, IconButton, CircularProgress, Alert, LinearProgress, Tooltip
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,42 +19,50 @@ function InventoryCard({ item, onEdit, onDelete, onStock, isAdmin }: {
   const stockPercent = Math.min((item.quantity / (item.lowStockThreshold * 2 || 10)) * 100, 100);
   return (
     <Paper elevation={0} sx={{
-      p: 2.5, borderRadius: '16px',
-      border: `1px solid ${isLow ? 'rgba(245,158,11,0.25)' : 'rgba(255,255,255,0.06)'}`,
-      background: isLow ? 'rgba(245,158,11,0.03)' : undefined
+      p: '20px', borderRadius: '8px',
+      border: isLow ? '1px solid #FDE68A' : undefined,
+      background: isLow ? '#FFFBEB' : undefined,
+      transition: 'all 0.15s ease',
+      '&:hover': { boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
         <Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-            <Typography variant="subtitle2" fontWeight={700} sx={{ color: '#f1f5f9' }}>{item.partName}</Typography>
-            {isLow && <WarningAmberIcon sx={{ fontSize: 16, color: '#f59e0b' }} />}
+            <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>{item.partName}</Typography>
+            {isLow && <WarningAmberIcon sx={{ fontSize: 16, color: '#D97706' }} />}
           </Box>
-          <Chip label={`# ${item.partNumber}`} size="small" sx={{ bgcolor: 'rgba(99,102,241,0.1)', color: '#818cf8', fontSize: 11, height: 20 }} />
+          <Box sx={{
+            display: 'inline-flex', px: '8px', py: '2px',
+            borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+            fontSize: 11, fontWeight: 500
+          }}>
+            # {item.partNumber}
+          </Box>
         </Box>
         {isAdmin && (
           <Box>
-            <Tooltip title="Edit"><IconButton size="small" onClick={onEdit} sx={{ color: '#64748b', '&:hover': { color: '#818cf8' } }}><EditIcon fontSize="small" /></IconButton></Tooltip>
-            <Tooltip title="Delete"><IconButton size="small" onClick={onDelete} sx={{ color: '#64748b', '&:hover': { color: '#ef4444' } }}><DeleteIcon fontSize="small" /></IconButton></Tooltip>
+            <Tooltip title="Edit"><IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}><EditIcon fontSize="small" /></IconButton></Tooltip>
+            <Tooltip title="Delete"><IconButton size="small" onClick={onDelete} sx={{ color: '#9CA3AF', '&:hover': { color: '#EF4444' } }}><DeleteIcon fontSize="small" /></IconButton></Tooltip>
           </Box>
         )}
       </Box>
       <Box sx={{ display: 'flex', gap: 3, mb: 1.5 }}>
         <Box>
-          <Typography variant="caption" sx={{ color: '#64748b' }}>Unit Price</Typography>
-          <Typography variant="body2" fontWeight={600} sx={{ color: '#10b981' }}>Rs. {item.unitPrice}</Typography>
+          <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Unit Price</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#10B981' }}>Rs. {item.unitPrice}</Typography>
         </Box>
         <Box>
-          <Typography variant="caption" sx={{ color: '#64748b' }}>Threshold</Typography>
-          <Typography variant="body2" fontWeight={600} sx={{ color: '#f1f5f9' }}>{item.lowStockThreshold}</Typography>
+          <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Threshold</Typography>
+          <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>{item.lowStockThreshold}</Typography>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-        <Typography variant="caption" sx={{ color: '#64748b' }}>Stock</Typography>
-        <Typography variant="caption" fontWeight={700} sx={{ color: isLow ? '#f59e0b' : '#10b981' }}>{item.quantity} units</Typography>
+        <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Stock</Typography>
+        <Typography sx={{ fontWeight: 700, fontSize: 12, color: isLow ? '#D97706' : '#10B981' }}>{item.quantity} units</Typography>
       </Box>
       <LinearProgress variant="determinate" value={stockPercent} color={isLow ? 'warning' : 'success'} sx={{ borderRadius: 4, height: 5 }} />
       {isAdmin && (
-        <Button size="small" onClick={onStock} sx={{ color: '#818cf8', fontSize: 12, mt: 1.5, px: 0 }}>Update Stock</Button>
+        <Button size="small" onClick={onStock} sx={{ color: '#2563EB', fontSize: 12, mt: 1.5, px: 0 }}>Update Stock</Button>
       )}
     </Paper>
   );
@@ -85,8 +93,7 @@ export default function InventoryPage() {
   const openEdit = (item: InventoryItem) => {
     setSelected(item);
     setForm({ partName: item.partName, partNumber: item.partNumber, quantity: item.quantity, unitPrice: item.unitPrice, lowStockThreshold: item.lowStockThreshold, garageId: typeof item.garageId === 'string' ? item.garageId : '' });
-    setError('');
-    setDialogOpen(true);
+    setError(''); setDialogOpen(true);
   };
   const handleDelete = async (id: string) => { if (!confirm('Delete this item?')) return; await inventoryService.delete(id); load(); };
   const openStock = (item: InventoryItem) => { setSelected(item); setNewQty(String(item.quantity)); setStockOpen(true); };
@@ -102,8 +109,7 @@ export default function InventoryPage() {
   };
 
   const handleStock = async () => {
-    if (!selected) return;
-    setSaving(true);
+    if (!selected) return; setSaving(true);
     try { await inventoryService.updateStock(selected._id, Number(newQty)); setStockOpen(false); load(); }
     catch (e: any) { setError(e.response?.data?.message || 'Failed'); }
     finally { setSaving(false); }
@@ -116,15 +122,15 @@ export default function InventoryPage() {
     <Box className="page-container fade-in">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9' }}>Inventory</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b', mt: 0.5 }}>
-            {lowStockItems.length > 0 && <><WarningAmberIcon sx={{ fontSize: 14, color: '#f59e0b', verticalAlign: 'middle' }} /> {lowStockItems.length} items below threshold · </>}
+          <Typography sx={{ fontWeight: 700, fontSize: 24, color: '#111827' }}>Inventory</Typography>
+          <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>
+            {lowStockItems.length > 0 && <><WarningAmberIcon sx={{ fontSize: 14, color: '#D97706', verticalAlign: 'middle' }} /> {lowStockItems.length} items below threshold · </>}
             {items.length} total parts
           </Typography>
         </Box>
         {isAdmin && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}
-            sx={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 16px rgba(99,102,241,0.4)' }}>
+            sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
             Add Part
           </Button>
         )}
@@ -135,9 +141,9 @@ export default function InventoryPage() {
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : items.length === 0 ? (
-        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '16px' }}>
-          <InventoryIcon sx={{ fontSize: 56, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#64748b' }}>No inventory items</Typography>
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '8px' }}>
+          <InventoryIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
+          <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No inventory items</Typography>
         </Paper>
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', lg: 'repeat(3,1fr)' }, gap: 2 }}>
@@ -147,8 +153,8 @@ export default function InventoryPage() {
         </Box>
       )}
 
-      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>{selected ? 'Edit Part' : 'Add Part'}</DialogTitle>
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>{selected ? 'Edit Part' : 'Add Part'}</DialogTitle>
         <DialogContent>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, mt: 0.5 }}>
@@ -161,19 +167,19 @@ export default function InventoryPage() {
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setDialogOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave} disabled={saving}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
+          <Button onClick={() => setDialogOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={stockOpen} onClose={() => setStockOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>Update Stock</DialogTitle>
+      <Dialog open={stockOpen} onClose={() => setStockOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>Update Stock</DialogTitle>
         <DialogContent>
           <TextField id="stock-qty" label="New Quantity" type="number" value={newQty} onChange={e => setNewQty(e.target.value)} fullWidth sx={{ mt: 1 }} />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setStockOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleStock} disabled={saving}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
+          <Button onClick={() => setStockOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleStock} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
         </DialogActions>
       </Dialog>
     </Box>

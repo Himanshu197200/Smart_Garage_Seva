@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton,
-  AppBar, Toolbar, Typography, IconButton, Badge, Avatar, Tooltip, Divider
+  AppBar, Toolbar, Typography, IconButton, Avatar, Tooltip, Divider, InputBase
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
@@ -12,9 +12,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 import { useAuth } from '../contexts/AuthContext';
 
-const DRAWER_WIDTH = 240;
+const DRAWER_WIDTH = 248;
 
 const navItems = [
   { label: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
@@ -31,89 +32,96 @@ export default function Layout() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const currentPage = navItems.find(item => location.pathname === item.path)?.label || 'Dashboard';
+
   const drawer = (
-    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', pt: 1 }}>
-      <Box sx={{ px: 3, py: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ px: 2.5, py: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Box sx={{
-          width: 36, height: 36, borderRadius: '10px',
-          background: 'linear-gradient(135deg, #6366f1, #0ea5e9)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center'
+          width: 36, height: 36, borderRadius: '8px',
+          background: '#2563EB',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0
         }}>
           <BuildIcon sx={{ fontSize: 20, color: '#fff' }} />
         </Box>
-        <Typography variant="subtitle1" fontWeight={700} sx={{ color: '#f1f5f9', lineHeight: 1.2 }}>
-          Smart Garage<br/>
-          <Typography component="span" variant="caption" sx={{ color: '#818cf8', fontWeight: 500 }}>Seva Platform</Typography>
-        </Typography>
+        <Box>
+          <Typography sx={{ color: '#F8FAFC', fontWeight: 700, fontSize: 15, lineHeight: 1.2 }}>
+            Smart Garage
+          </Typography>
+          <Typography sx={{ color: '#94A3B8', fontSize: 11, fontWeight: 500, letterSpacing: '0.03em' }}>
+            Seva Platform
+          </Typography>
+        </Box>
       </Box>
 
-      <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', mb: 1 }} />
+      <Divider sx={{ borderColor: 'rgba(255,255,255,0.08)', mx: 2 }} />
+
+      <Box sx={{ px: 2, mt: 2, mb: 1 }}>
+        <Typography sx={{ color: '#64748B', fontSize: 11, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', px: 0.5 }}>
+          Menu
+        </Typography>
+      </Box>
 
       <List sx={{ px: 1.5, flex: 1 }}>
         {navItems.map((item) => {
           const active = location.pathname === item.path;
           return (
-            <ListItem key={item.path} disablePadding sx={{ mb: 0.5 }}>
+            <ListItem key={item.path} disablePadding sx={{ mb: 0.25 }}>
               <ListItemButton
                 onClick={() => { navigate(item.path); setMobileOpen(false); }}
                 sx={{
-                  borderRadius: '10px',
-                  py: 1,
+                  borderRadius: '6px',
+                  py: 0.9,
                   px: 1.5,
-                  background: active ? 'linear-gradient(135deg, rgba(99,102,241,0.2), rgba(14,165,233,0.1))' : 'transparent',
-                  border: active ? '1px solid rgba(99,102,241,0.3)' : '1px solid transparent',
+                  borderLeft: active ? '3px solid #2563EB' : '3px solid transparent',
+                  background: active ? 'rgba(37, 99, 235, 0.12)' : 'transparent',
                   '&:hover': {
-                    background: 'rgba(99,102,241,0.1)',
-                    border: '1px solid rgba(99,102,241,0.2)'
+                    background: active ? 'rgba(37, 99, 235, 0.15)' : 'rgba(255,255,255,0.06)'
                   },
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.15s ease'
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 36, color: active ? '#818cf8' : '#64748b' }}>
+                <ListItemIcon sx={{ minWidth: 34, color: active ? '#3B82F6' : '#94A3B8' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
                   primary={item.label}
                   primaryTypographyProps={{
                     fontWeight: active ? 600 : 400,
-                    fontSize: 14,
-                    color: active ? '#f1f5f9' : '#94a3b8'
+                    fontSize: 13.5,
+                    color: active ? '#F8FAFC' : '#CBD5E1'
                   }}
                 />
-                {active && (
-                  <Box sx={{
-                    width: 6, height: 6, borderRadius: '50%',
-                    bgcolor: '#6366f1',
-                    boxShadow: '0 0 8px #6366f1'
-                  }} />
-                )}
               </ListItemButton>
             </ListItem>
           );
         })}
       </List>
 
-      <Divider sx={{ borderColor: 'rgba(255,255,255,0.06)', mb: 1 }} />
-      <Box sx={{ px: 2, pb: 2 }}>
+      <Divider sx={{ borderColor: 'rgba(255,255,255,0.08)', mx: 2 }} />
+      <Box sx={{ px: 1.5, py: 2 }}>
         <Box sx={{
           display: 'flex', alignItems: 'center', gap: 1.5,
-          p: 1.5, borderRadius: '10px',
-          background: 'rgba(255,255,255,0.03)',
-          border: '1px solid rgba(255,255,255,0.06)'
+          p: 1.5, borderRadius: '8px',
+          background: 'rgba(255,255,255,0.05)'
         }}>
-          <Avatar sx={{ width: 32, height: 32, bgcolor: '#4f46e5', fontSize: 13, fontWeight: 700 }}>
+          <Avatar sx={{
+            width: 32, height: 32, bgcolor: '#2563EB',
+            fontSize: 13, fontWeight: 700
+          }}>
             {user?.name?.charAt(0).toUpperCase()}
           </Avatar>
           <Box sx={{ flex: 1, minWidth: 0 }}>
-            <Typography variant="body2" fontWeight={600} noWrap sx={{ color: '#f1f5f9' }}>
+            <Typography noWrap sx={{ color: '#F8FAFC', fontWeight: 600, fontSize: 13 }}>
               {user?.name}
             </Typography>
-            <Typography variant="caption" sx={{ color: '#64748b' }}>
+            <Typography sx={{ color: '#94A3B8', fontSize: 11 }}>
               {user?.role}
             </Typography>
           </Box>
           <Tooltip title="Logout">
-            <IconButton size="small" onClick={logout} sx={{ color: '#64748b', '&:hover': { color: '#ef4444' } }}>
+            <IconButton size="small" onClick={logout} sx={{ color: '#94A3B8', '&:hover': { color: '#EF4444' } }}>
               <LogoutIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -128,10 +136,9 @@ export default function Layout() {
         position="fixed"
         sx={{
           display: { sm: 'none' },
-          background: 'rgba(15,23,42,0.95)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: '#1E293B',
           boxShadow: 'none',
+          borderBottom: '1px solid rgba(255,255,255,0.08)',
           zIndex: (theme) => theme.zIndex.drawer + 1
         }}
       >
@@ -139,7 +146,7 @@ export default function Layout() {
           <IconButton color="inherit" edge="start" onClick={() => setMobileOpen(!mobileOpen)}>
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" fontWeight={700} sx={{ ml: 1 }}>Smart Garage Seva</Typography>
+          <Typography variant="h6" fontWeight={700} sx={{ ml: 1, color: '#F8FAFC' }}>Smart Garage Seva</Typography>
         </Toolbar>
       </AppBar>
 
@@ -153,8 +160,8 @@ export default function Layout() {
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': {
               width: DRAWER_WIDTH,
-              bgcolor: '#1e293b',
-              borderRight: '1px solid rgba(255,255,255,0.06)'
+              bgcolor: '#1E293B',
+              borderRight: 'none'
             }
           }}
         >
@@ -166,8 +173,8 @@ export default function Layout() {
             display: { xs: 'none', sm: 'block' },
             '& .MuiDrawer-paper': {
               width: DRAWER_WIDTH,
-              bgcolor: '#1e293b',
-              borderRight: '1px solid rgba(255,255,255,0.06)'
+              bgcolor: '#1E293B',
+              borderRight: 'none'
             }
           }}
           open
@@ -183,11 +190,40 @@ export default function Layout() {
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
           mt: { xs: '56px', sm: 0 },
           minHeight: '100vh',
-          bgcolor: '#0f172a',
-          overflowX: 'hidden'
+          bgcolor: '#F8FAFC',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
-        <Outlet />
+        <Box sx={{
+          height: 64,
+          bgcolor: '#FFFFFF',
+          borderBottom: '1px solid #E5E7EB',
+          display: { xs: 'none', sm: 'flex' },
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 3
+        }}>
+          <Typography sx={{ fontWeight: 600, fontSize: 16, color: '#111827' }}>
+            {currentPage}
+          </Typography>
+
+          <Box sx={{
+            display: 'flex', alignItems: 'center',
+            gap: 0.75, bgcolor: '#F3F4F6',
+            borderRadius: '8px', px: 1.5, py: 0.5
+          }}>
+            <SearchIcon sx={{ color: '#9CA3AF', fontSize: 18 }} />
+            <InputBase
+              placeholder="Search…"
+              sx={{ fontSize: 13, color: '#111827', width: 200 }}
+            />
+          </Box>
+        </Box>
+
+        <Box sx={{ flex: 1, overflowX: 'hidden' }}>
+          <Outlet />
+        </Box>
       </Box>
     </Box>
   );

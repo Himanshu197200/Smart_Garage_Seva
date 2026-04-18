@@ -15,36 +15,37 @@ interface VehicleRecs {
   recommendations: Recommendation[];
 }
 
-const PRIORITY_COLORS: Record<string, 'error' | 'warning' | 'info'> = {
-  HIGH: 'error',
-  MEDIUM: 'warning',
-  LOW: 'info'
+const PRIORITY_STYLES: Record<string, { bg: string; color: string; chipColor: 'error' | 'warning' | 'info' }> = {
+  HIGH: { bg: '#FEE2E2', color: '#991B1B', chipColor: 'error' },
+  MEDIUM: { bg: '#FEF3C7', color: '#92400E', chipColor: 'warning' },
+  LOW: { bg: '#DBEAFE', color: '#1E40AF', chipColor: 'info' }
 };
 
 const PRIORITY_SCORE: Record<string, number> = { HIGH: 100, MEDIUM: 66, LOW: 33 };
 
 function RecommendationCard({ rec }: { rec: Recommendation }) {
+  const style = PRIORITY_STYLES[rec.priority] || PRIORITY_STYLES.LOW;
   return (
     <Box sx={{
-      p: 2, borderRadius: '12px', mb: 1.5,
-      background: 'rgba(255,255,255,0.03)',
-      border: '1px solid rgba(255,255,255,0.06)'
+      p: 2, borderRadius: '8px', mb: 1.5,
+      border: '1px solid #E5E7EB',
+      '&:hover': { bgcolor: '#F9FAFB' }, transition: 'background 0.15s'
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-        <Typography variant="body2" fontWeight={600} sx={{ color: '#f1f5f9' }}>{rec.type.replace(/_/g, ' ')}</Typography>
-        <Chip label={rec.priority} color={PRIORITY_COLORS[rec.priority]} size="small" />
+        <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>{rec.type.replace(/_/g, ' ')}</Typography>
+        <Chip label={rec.priority} color={style.chipColor} size="small" />
       </Box>
-      <Typography variant="body2" sx={{ color: '#94a3b8', mb: 1 }}>{rec.message}</Typography>
+      <Typography sx={{ color: '#6B7280', fontSize: 14, mb: 1 }}>{rec.message}</Typography>
       <Box>
-        <Typography variant="caption" sx={{ color: '#64748b' }}>Suggested Action</Typography>
-        <Typography variant="caption" sx={{ color: '#10b981', display: 'block' }}>{rec.suggestedAction}</Typography>
+        <Typography sx={{ color: '#9CA3AF', fontSize: 12 }}>Suggested Action</Typography>
+        <Typography sx={{ color: '#10B981', fontSize: 12, fontWeight: 500 }}>{rec.suggestedAction}</Typography>
       </Box>
       <Box sx={{ mt: 1.5 }}>
-        <Typography variant="caption" sx={{ color: '#64748b', mb: 0.5, display: 'block' }}>Priority Level</Typography>
+        <Typography sx={{ color: '#9CA3AF', fontSize: 12, mb: 0.5 }}>Priority Level</Typography>
         <LinearProgress
           variant="determinate"
           value={PRIORITY_SCORE[rec.priority]}
-          color={PRIORITY_COLORS[rec.priority]}
+          color={style.chipColor}
           sx={{ borderRadius: 4, height: 4 }}
         />
       </Box>
@@ -70,7 +71,6 @@ export default function MaintenancePage() {
       setLoading(false);
     }
   };
-
   useEffect(() => { load(); }, []);
 
   const handleScan = async () => {
@@ -92,8 +92,8 @@ export default function MaintenancePage() {
     <Box className="page-container fade-in">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9' }}>Predictive Maintenance</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b', mt: 0.5 }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 24, color: '#111827' }}>Predictive Maintenance</Typography>
+          <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>
             AI-powered maintenance recommendations for your fleet
           </Typography>
         </Box>
@@ -103,7 +103,7 @@ export default function MaintenancePage() {
             startIcon={<EngineeringIcon />}
             onClick={handleScan}
             disabled={scanning}
-            sx={{ background: 'linear-gradient(135deg, #10b981, #059669)', boxShadow: '0 4px 16px rgba(16,185,129,0.4)' }}
+            sx={{ bgcolor: '#10B981', '&:hover': { bgcolor: '#059669' } }}
           >
             {scanning ? <CircularProgress size={18} color="inherit" /> : 'Run Full Scan'}
           </Button>
@@ -114,27 +114,27 @@ export default function MaintenancePage() {
       {scanMsg && <Alert severity="success" sx={{ mb: 2 }} onClose={() => setScanMsg('')}>{scanMsg}</Alert>}
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-        <Paper elevation={0} sx={{ p: 2.5, borderRadius: '16px', textAlign: 'center', flex: '1 1 180px' }}>
-          <Typography variant="h3" fontWeight={700} sx={{ color: '#6366f1' }}>{data.length}</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b' }}>Vehicles Analysed</Typography>
+        <Paper elevation={0} sx={{ p: '20px', borderRadius: '8px', textAlign: 'center', flex: '1 1 180px' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 36, color: '#2563EB' }}>{data.length}</Typography>
+          <Typography sx={{ color: '#6B7280', fontSize: 14 }}>Vehicles Analysed</Typography>
         </Paper>
-        <Paper elevation={0} sx={{ p: 2.5, borderRadius: '16px', textAlign: 'center', flex: '1 1 180px' }}>
-          <Typography variant="h3" fontWeight={700} sx={{ color: '#f59e0b' }}>{totalRecs}</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b' }}>Total Recommendations</Typography>
+        <Paper elevation={0} sx={{ p: '20px', borderRadius: '8px', textAlign: 'center', flex: '1 1 180px' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 36, color: '#D97706' }}>{totalRecs}</Typography>
+          <Typography sx={{ color: '#6B7280', fontSize: 14 }}>Total Recommendations</Typography>
         </Paper>
-        <Paper elevation={0} sx={{ p: 2.5, borderRadius: '16px', textAlign: 'center', flex: '1 1 180px' }}>
-          <Typography variant="h3" fontWeight={700} sx={{ color: '#ef4444' }}>{highPri}</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b' }}>High Priority Alerts</Typography>
+        <Paper elevation={0} sx={{ p: '20px', borderRadius: '8px', textAlign: 'center', flex: '1 1 180px' }}>
+          <Typography sx={{ fontWeight: 700, fontSize: 36, color: '#EF4444' }}>{highPri}</Typography>
+          <Typography sx={{ color: '#6B7280', fontSize: 14 }}>High Priority Alerts</Typography>
         </Paper>
       </Box>
 
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : data.length === 0 ? (
-        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '16px' }}>
-          <EngineeringIcon sx={{ fontSize: 56, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" sx={{ color: '#64748b' }}>No recommendations at this time</Typography>
-          <Typography variant="body2" sx={{ color: '#475569', mt: 1 }}>Your vehicles are in good health!</Typography>
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '8px' }}>
+          <EngineeringIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
+          <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No recommendations at this time</Typography>
+          <Typography sx={{ color: '#9CA3AF', mt: 1, fontSize: 14 }}>Your vehicles are in good health!</Typography>
         </Paper>
       ) : (
         <Box>
@@ -144,18 +144,24 @@ export default function MaintenancePage() {
               defaultExpanded={i === 0}
               elevation={0}
               sx={{
-                mb: 1.5, borderRadius: '16px !important', overflow: 'hidden',
+                mb: 1.5, borderRadius: '8px !important', overflow: 'hidden',
                 '&:before': { display: 'none' },
-                border: '1px solid rgba(255,255,255,0.06)'
+                border: '1px solid #E5E7EB'
               }}
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <DirectionsCarIcon sx={{ color: '#818cf8', fontSize: 20 }} />
-                  <Typography variant="subtitle1" fontWeight={600} sx={{ color: '#f1f5f9' }}>
+                  <DirectionsCarIcon sx={{ color: '#2563EB', fontSize: 20 }} />
+                  <Typography sx={{ fontWeight: 600, fontSize: 15, color: '#111827' }}>
                     {item.vehicle}
                   </Typography>
-                  <Chip label={`${item.recommendations.length} recs`} size="small" sx={{ bgcolor: 'rgba(99,102,241,0.12)', color: '#818cf8' }} />
+                  <Box sx={{
+                    display: 'inline-flex', px: '8px', py: '2px',
+                    borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+                    fontSize: 11, fontWeight: 500
+                  }}>
+                    {item.recommendations.length} recs
+                  </Box>
                   {item.recommendations.some(r => r.priority === 'HIGH') && (
                     <Chip label="HIGH PRIORITY" color="error" size="small" />
                   )}
@@ -163,7 +169,7 @@ export default function MaintenancePage() {
               </AccordionSummary>
               <AccordionDetails sx={{ px: 2.5, pb: 2.5 }}>
                 {item.recommendations.length === 0 ? (
-                  <Typography variant="body2" sx={{ color: '#64748b' }}>No recommendations for this vehicle.</Typography>
+                  <Typography sx={{ color: '#6B7280', fontSize: 14 }}>No recommendations for this vehicle.</Typography>
                 ) : (
                   item.recommendations.map((rec, j) => <RecommendationCard key={j} rec={rec} />)
                 )}

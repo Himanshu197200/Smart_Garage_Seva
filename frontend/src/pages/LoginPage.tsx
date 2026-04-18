@@ -40,31 +40,30 @@ export default function LoginPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'radial-gradient(ellipse at 60% 20%, rgba(99,102,241,0.15) 0%, transparent 60%), #0f172a',
+      background: '#F8FAFC',
       p: 2
     }}>
       <Box sx={{ width: '100%', maxWidth: 420 }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box sx={{
-            width: 56, height: 56, borderRadius: '16px',
-            background: 'linear-gradient(135deg, #6366f1, #0ea5e9)',
+            width: 48, height: 48, borderRadius: '12px',
+            background: '#2563EB',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            mx: 'auto', mb: 2,
-            boxShadow: '0 8px 32px rgba(99,102,241,0.4)'
+            mx: 'auto', mb: 2
           }}>
-            <BuildIcon sx={{ fontSize: 28, color: '#fff' }} />
+            <BuildIcon sx={{ fontSize: 24, color: '#fff' }} />
           </Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9', mb: 0.5 }}>
+          <Typography variant="h5" fontWeight={700} sx={{ color: '#111827', mb: 0.5 }}>
             Welcome back
           </Typography>
-          <Typography variant="body2" sx={{ color: '#64748b' }}>
-            Smart Garage Seva Platform
+          <Typography variant="body2" sx={{ color: '#6B7280' }}>
+            Sign in to Smart Garage Seva
           </Typography>
         </Box>
 
-        <Paper sx={{ p: 3, borderRadius: '16px' }} elevation={0}>
+        <Paper sx={{ p: 4, borderRadius: '12px' }} elevation={0}>
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>
+            <Alert severity="error" sx={{ mb: 2.5 }} onClose={() => setError('')}>
               {error}
             </Alert>
           )}
@@ -78,11 +77,11 @@ export default function LoginPage() {
               fullWidth
               required
               autoComplete="email"
-              sx={{ mb: 2 }}
+              sx={{ mb: 2.5 }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <EmailIcon sx={{ color: '#64748b', fontSize: 18 }} />
+                    <EmailIcon sx={{ color: '#9CA3AF', fontSize: 18 }} />
                   </InputAdornment>
                 )
               }}
@@ -100,13 +99,13 @@ export default function LoginPage() {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LockIcon sx={{ color: '#64748b', fontSize: 18 }} />
+                    <LockIcon sx={{ color: '#9CA3AF', fontSize: 18 }} />
                   </InputAdornment>
                 ),
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton size="small" onClick={() => setShowPassword(!showPassword)}>
-                      {showPassword ? <VisibilityOffIcon sx={{ fontSize: 18 }} /> : <VisibilityIcon sx={{ fontSize: 18 }} />}
+                      {showPassword ? <VisibilityOffIcon sx={{ fontSize: 18, color: '#9CA3AF' }} /> : <VisibilityIcon sx={{ fontSize: 18, color: '#9CA3AF' }} />}
                     </IconButton>
                   </InputAdornment>
                 )
@@ -119,10 +118,11 @@ export default function LoginPage() {
               fullWidth
               disabled={loading}
               sx={{
-                py: 1.5,
-                background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
-                boxShadow: '0 4px 16px rgba(99,102,241,0.4)',
-                '&:hover': { background: 'linear-gradient(135deg, #4f46e5, #4338ca)', boxShadow: '0 6px 20px rgba(99,102,241,0.5)' }
+                py: 1.4,
+                bgcolor: '#2563EB',
+                '&:hover': { bgcolor: '#1D4ED8' },
+                fontSize: 14,
+                fontWeight: 600
               }}
             >
               {loading ? <CircularProgress size={20} color="inherit" /> : 'Sign in'}
@@ -130,9 +130,9 @@ export default function LoginPage() {
           </Box>
         </Paper>
 
-        <Typography variant="body2" align="center" sx={{ mt: 2.5, color: '#64748b' }}>
+        <Typography variant="body2" align="center" sx={{ mt: 3, color: '#6B7280' }}>
           Don't have an account?{' '}
-          <Link to="/register" style={{ color: '#818cf8', fontWeight: 600 }}>
+          <Link to="/register" style={{ color: '#2563EB', fontWeight: 600 }}>
             Register here
           </Link>
         </Typography>

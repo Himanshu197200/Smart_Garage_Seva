@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box, Typography, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, Chip, IconButton, CircularProgress, Alert, Select, MenuItem,
+  TextField, IconButton, CircularProgress, Alert, Select, MenuItem,
   FormControl, InputLabel, Tooltip
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -13,70 +13,76 @@ import { jobService } from '../services/jobService';
 import { ServiceJob, JobStatus } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 
-const STATUS_COLORS: Record<string, 'default' | 'info' | 'warning' | 'success' | 'error'> = {
-  CREATED: 'default',
-  ASSIGNED: 'info',
-  IN_PROGRESS: 'warning',
-  COMPLETED: 'success',
-  DELIVERED: 'success'
+const STATUS_MAP: Record<string, { bg: string; color: string; dot: string; label: string }> = {
+  CREATED: { bg: '#F3F4F6', color: '#4B5563', dot: '#6B7280', label: 'Created' },
+  ASSIGNED: { bg: '#DBEAFE', color: '#1E40AF', dot: '#2563EB', label: 'Assigned' },
+  IN_PROGRESS: { bg: '#FEF3C7', color: '#92400E', dot: '#F59E0B', label: 'In Progress' },
+  COMPLETED: { bg: '#D1FAE5', color: '#065F46', dot: '#10B981', label: 'Completed' },
+  DELIVERED: { bg: '#EDE9FE', color: '#5B21B6', dot: '#8B5CF6', label: 'Delivered' }
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  CREATED: 'Created',
-  ASSIGNED: 'Assigned',
-  IN_PROGRESS: 'In Progress',
-  COMPLETED: 'Completed',
-  DELIVERED: 'Delivered'
+  CREATED: 'Created', ASSIGNED: 'Assigned', IN_PROGRESS: 'In Progress',
+  COMPLETED: 'Completed', DELIVERED: 'Delivered'
 };
 
+function StatusBadge({ status }: { status: string }) {
+  const s = STATUS_MAP[status] || STATUS_MAP.CREATED;
+  return (
+    <Box sx={{
+      display: 'inline-flex', alignItems: 'center', gap: '6px',
+      px: '10px', py: '4px', borderRadius: '9999px',
+      fontSize: 12, fontWeight: 500, bgcolor: s.bg, color: s.color
+    }}>
+      <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: s.dot }} />
+      {s.label}
+    </Box>
+  );
+}
+
 function JobCard({ job, onAssign, onStatusChange, onEstimate, userRole }: {
-  job: ServiceJob;
-  onAssign: () => void;
-  onStatusChange: () => void;
-  onEstimate: () => void;
-  userRole: string;
+  job: ServiceJob; onAssign: () => void; onStatusChange: () => void; onEstimate: () => void; userRole: string;
 }) {
   return (
     <Paper elevation={0} sx={{
-      p: 2.5, borderRadius: '16px',
-      border: '1px solid rgba(255,255,255,0.06)',
-      transition: 'border-color 0.2s',
-      '&:hover': { borderColor: 'rgba(99,102,241,0.25)' }
+      p: '20px', borderRadius: '8px',
+      transition: 'all 0.15s ease',
+      '&:hover': { borderColor: '#D1D5DB', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', mb: 1.5 }}>
         <Box>
-          <Typography variant="caption" sx={{ color: '#64748b', fontFamily: 'monospace' }}>#{job._id.slice(-8)}</Typography>
-          <Typography variant="body2" fontWeight={600} sx={{ color: '#f1f5f9', mt: 0.25 }}>
+          <Typography sx={{ color: '#9CA3AF', fontFamily: 'monospace', fontSize: 11 }}>#{job._id.slice(-8)}</Typography>
+          <Typography sx={{ fontWeight: 500, fontSize: 14, color: '#111827', mt: 0.25, lineHeight: 1.4 }}>
             {job.problemDescription.length > 60 ? job.problemDescription.slice(0, 60) + '…' : job.problemDescription}
           </Typography>
         </Box>
-        <Chip label={STATUS_LABELS[job.status]} color={STATUS_COLORS[job.status]} size="small" />
+        <StatusBadge status={job.status} />
       </Box>
-      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1.5 }}>
-        <Typography variant="caption" sx={{ color: '#64748b' }}>
-          Estimate: <strong style={{ color: '#f1f5f9' }}>Rs. {job.costEstimate || '—'}</strong>
+      <Box sx={{ display: 'flex', gap: 1.5, mb: 1.5 }}>
+        <Typography sx={{ color: '#6B7280', fontSize: 12 }}>
+          Estimate: <strong style={{ color: '#111827' }}>Rs. {job.costEstimate || '—'}</strong>
         </Typography>
-        <Typography variant="caption" sx={{ color: '#64748b' }}>·</Typography>
-        <Typography variant="caption" sx={{ color: '#64748b' }}>
+        <Typography sx={{ color: '#D1D5DB', fontSize: 12 }}>·</Typography>
+        <Typography sx={{ color: '#6B7280', fontSize: 12 }}>
           {new Date(job.createdAt || '').toLocaleDateString()}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
         {userRole === 'ADMIN' && job.status === 'CREATED' && (
           <Button size="small" startIcon={<AssignmentIndIcon />} variant="outlined" onClick={onAssign}
-            sx={{ borderColor: 'rgba(99,102,241,0.4)', color: '#818cf8', fontSize: 12 }}>
+            sx={{ borderColor: '#D1D5DB', color: '#2563EB', fontSize: 12, '&:hover': { borderColor: '#2563EB', bgcolor: '#EFF6FF' } }}>
             Assign
           </Button>
         )}
         {(userRole === 'ADMIN' || userRole === 'MECHANIC') && job.status !== 'DELIVERED' && (
           <Button size="small" startIcon={<ArrowForwardIcon />} variant="outlined" onClick={onStatusChange}
-            sx={{ borderColor: 'rgba(14,165,233,0.4)', color: '#38bdf8', fontSize: 12 }}>
+            sx={{ borderColor: '#D1D5DB', color: '#3B82F6', fontSize: 12, '&:hover': { borderColor: '#3B82F6', bgcolor: '#DBEAFE' } }}>
             Update Status
           </Button>
         )}
         {userRole === 'ADMIN' && (
           <Button size="small" startIcon={<PriceCheckIcon />} variant="outlined" onClick={onEstimate}
-            sx={{ borderColor: 'rgba(16,185,129,0.4)', color: '#34d399', fontSize: 12 }}>
+            sx={{ borderColor: '#D1D5DB', color: '#10B981', fontSize: 12, '&:hover': { borderColor: '#10B981', bgcolor: '#D1FAE5' } }}>
             Set Estimate
           </Button>
         )}
@@ -103,31 +109,21 @@ export default function ServiceJobsPage() {
   const [estimate, setEstimate] = useState('');
 
   const load = async () => {
-    try {
-      const data = await jobService.getJobs(user?.garageId);
-      setJobs(data);
-    } finally {
-      setLoading(false);
-    }
+    try { const data = await jobService.getJobs(user?.garageId); setJobs(data); }
+    finally { setLoading(false); }
   };
-
   useEffect(() => { load(); }, []);
 
   const handleCreate = async () => {
     setSaving(true); setError('');
-    try {
-      await jobService.create(createForm);
-      setCreateOpen(false);
-      load();
-    } catch (e: any) {
-      setError(e.response?.data?.message || 'Failed to create job');
-    } finally { setSaving(false); }
+    try { await jobService.create(createForm); setCreateOpen(false); load(); }
+    catch (e: any) { setError(e.response?.data?.message || 'Failed to create job'); }
+    finally { setSaving(false); }
   };
 
   const openAssign = (job: ServiceJob) => { setSelectedJob(job); setMechanicId(''); setAssignOpen(true); };
   const handleAssign = async () => {
-    if (!selectedJob) return;
-    setSaving(true);
+    if (!selectedJob) return; setSaving(true);
     try { await jobService.assignMechanic(selectedJob._id, mechanicId); setAssignOpen(false); load(); }
     catch (e: any) { setError(e.response?.data?.message || 'Failed to assign'); }
     finally { setSaving(false); }
@@ -136,13 +132,10 @@ export default function ServiceJobsPage() {
   const openStatus = async (job: ServiceJob) => {
     setSelectedJob(job);
     const t = await jobService.getTransitions(job._id);
-    setTransitions(t);
-    if (t.length) setNewStatus(t[0]);
-    setStatusOpen(true);
+    setTransitions(t); if (t.length) setNewStatus(t[0]); setStatusOpen(true);
   };
   const handleStatus = async () => {
-    if (!selectedJob) return;
-    setSaving(true);
+    if (!selectedJob) return; setSaving(true);
     try { await jobService.updateStatus(selectedJob._id, newStatus); setStatusOpen(false); load(); }
     catch (e: any) { setError(e.response?.data?.message || 'Failed to update status'); }
     finally { setSaving(false); }
@@ -150,8 +143,7 @@ export default function ServiceJobsPage() {
 
   const openEstimate = (job: ServiceJob) => { setSelectedJob(job); setEstimate(String(job.costEstimate || '')); setEstimateOpen(true); };
   const handleEstimate = async () => {
-    if (!selectedJob) return;
-    setSaving(true);
+    if (!selectedJob) return; setSaving(true);
     try { await jobService.updateEstimate(selectedJob._id, Number(estimate)); setEstimateOpen(false); load(); }
     catch (e: any) { setError(e.response?.data?.message || 'Failed to update estimate'); }
     finally { setSaving(false); }
@@ -161,12 +153,12 @@ export default function ServiceJobsPage() {
     <Box className="page-container fade-in">
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={700} sx={{ color: '#f1f5f9' }}>Service Jobs</Typography>
-          <Typography variant="body2" sx={{ color: '#64748b', mt: 0.5 }}>Track and manage all service requests</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 24, color: '#111827' }}>Service Jobs</Typography>
+          <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>Track and manage all service requests</Typography>
         </Box>
         {user?.role === 'CUSTOMER' && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setCreateForm({ vehicleId: '', garageId: '', problemDescription: '' }); setError(''); setCreateOpen(true); }}
-            sx={{ background: 'linear-gradient(135deg, #6366f1, #4f46e5)', boxShadow: '0 4px 16px rgba(99,102,241,0.4)' }}>
+            sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
             New Request
           </Button>
         )}
@@ -177,9 +169,9 @@ export default function ServiceJobsPage() {
       {loading ? (
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>
       ) : jobs.length === 0 ? (
-        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '16px' }}>
-          <BuildIcon sx={{ fontSize: 56, color: '#334155', mb: 2 }} />
-          <Typography variant="h6" fontWeight={600} sx={{ color: '#64748b' }}>No service jobs</Typography>
+        <Paper elevation={0} sx={{ p: 6, textAlign: 'center', borderRadius: '8px' }}>
+          <BuildIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
+          <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No service jobs</Typography>
         </Paper>
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2,1fr)' }, gap: 2 }}>
@@ -189,8 +181,8 @@ export default function ServiceJobsPage() {
         </Box>
       )}
 
-      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>New Service Request</DialogTitle>
+      <Dialog open={createOpen} onClose={() => setCreateOpen(false)} maxWidth="sm" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>New Service Request</DialogTitle>
         <DialogContent>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
@@ -200,24 +192,24 @@ export default function ServiceJobsPage() {
           </Box>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setCreateOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleCreate} disabled={saving}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Submit'}</Button>
+          <Button onClick={() => setCreateOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleCreate} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Submit'}</Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={assignOpen} onClose={() => setAssignOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>Assign Mechanic</DialogTitle>
+      <Dialog open={assignOpen} onClose={() => setAssignOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>Assign Mechanic</DialogTitle>
         <DialogContent>
           <TextField id="assign-mech" label="Mechanic User ID" value={mechanicId} onChange={e => setMechanicId(e.target.value)} fullWidth sx={{ mt: 1 }} />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setAssignOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleAssign} disabled={saving}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Assign'}</Button>
+          <Button onClick={() => setAssignOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleAssign} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Assign'}</Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={statusOpen} onClose={() => setStatusOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>Update Job Status</DialogTitle>
+      <Dialog open={statusOpen} onClose={() => setStatusOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>Update Job Status</DialogTitle>
         <DialogContent>
           <FormControl fullWidth sx={{ mt: 1 }}>
             <InputLabel>New Status</InputLabel>
@@ -227,19 +219,19 @@ export default function ServiceJobsPage() {
           </FormControl>
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setStatusOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleStatus} disabled={saving || !transitions.length}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
+          <Button onClick={() => setStatusOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleStatus} disabled={saving || !transitions.length} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={estimateOpen} onClose={() => setEstimateOpen(false)} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: '16px' } }}>
-        <DialogTitle fontWeight={700}>Set Cost Estimate</DialogTitle>
+      <Dialog open={estimateOpen} onClose={() => setEstimateOpen(false)} maxWidth="xs" fullWidth>
+        <DialogTitle fontWeight={600} sx={{ color: '#111827' }}>Set Cost Estimate</DialogTitle>
         <DialogContent>
           <TextField id="estimate-input" label="Cost Estimate (Rs.)" type="number" value={estimate} onChange={e => setEstimate(e.target.value)} fullWidth sx={{ mt: 1 }} />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
-          <Button onClick={() => setEstimateOpen(false)} sx={{ color: '#64748b' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleEstimate} disabled={saving}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
+          <Button onClick={() => setEstimateOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
+          <Button variant="contained" onClick={handleEstimate} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
         </DialogActions>
       </Dialog>
     </Box>
