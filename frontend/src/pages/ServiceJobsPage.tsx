@@ -186,7 +186,7 @@ export default function ServiceJobsPage() {
         <DialogContent>
           {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <TextField id="j-vehicle" label="Vehicle ID" value={createForm.vehicleId} onChange={e => setCreateForm(p => ({ ...p, vehicleId: e.target.value }))} fullWidth required />
+            <TextField id="j-vehicle" label="Vehicle Registration No." placeholder="e.g. GJ05PQ1234" value={createForm.vehicleId} onChange={e => setCreateForm(p => ({ ...p, vehicleId: e.target.value.toUpperCase() }))} fullWidth required />
             <TextField id="j-garage" label="Garage ID" value={createForm.garageId} onChange={e => setCreateForm(p => ({ ...p, garageId: e.target.value }))} fullWidth required />
             <TextField id="j-problem" label="Problem Description" value={createForm.problemDescription} onChange={e => setCreateForm(p => ({ ...p, problemDescription: e.target.value }))} fullWidth required multiline rows={3} />
           </Box>

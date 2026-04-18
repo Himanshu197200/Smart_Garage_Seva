@@ -31,7 +31,7 @@ export class ServiceJobService implements IServiceJobService {
   }
 
   async createJob(dto: CreateServiceJobDTO, customerId: string): Promise<IServiceJob> {
-    const vehicle = await this.vehicleRepository.findById(dto.vehicleId);
+    const vehicle = await this.vehicleRepository.findByRegistration(dto.vehicleId);
     if (!vehicle) {
       throw new NotFoundError('Vehicle');
     }

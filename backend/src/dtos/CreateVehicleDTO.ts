@@ -10,7 +10,7 @@ export interface CreateVehicleDTO {
 }
 
 export const createVehicleSchema = Joi.object({
-  garageId: Joi.string().required().length(24),
+  garageId: Joi.string().required().length(6).pattern(/^[A-Za-z0-9]{6}$/),
   registrationNumber: Joi.string().required().trim().uppercase(),
   brand: Joi.string().required().trim(),
   modelName: Joi.string().required().trim(),

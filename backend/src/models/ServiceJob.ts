@@ -3,8 +3,8 @@ import { JobStatus } from '../patterns/state/JobState';
 
 export interface IServiceJob extends Document {
   _id: Types.ObjectId;
-  vehicleId: Types.ObjectId;
-  garageId: Types.ObjectId;
+  vehicleId: string;
+  garageId: string;
   assignedMechanicId?: Types.ObjectId;
   status: JobStatus;
   problemDescription: string;
@@ -16,14 +16,14 @@ export interface IServiceJob extends Document {
 
 const ServiceJobSchema = new Schema<IServiceJob>({
   vehicleId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Vehicle',
+    type: String,
     required: [true, 'Vehicle is required']
   },
   garageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Garage',
-    required: [true, 'Garage is required']
+    type: String,
+    required: [true, 'Garage is required'],
+    minlength: 6,
+    maxlength: 6
   },
   assignedMechanicId: {
     type: Schema.Types.ObjectId,

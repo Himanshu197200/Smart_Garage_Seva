@@ -2,7 +2,7 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IInventory extends Document {
   _id: Types.ObjectId;
-  garageId: Types.ObjectId;
+  garageId: string;
   partName: string;
   partNumber: string;
   quantity: number;
@@ -13,9 +13,10 @@ export interface IInventory extends Document {
 
 const InventorySchema = new Schema<IInventory>({
   garageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Garage',
-    required: [true, 'Garage is required']
+    type: String,
+    required: [true, 'Garage is required'],
+    minlength: 6,
+    maxlength: 6
   },
   partName: {
     type: String,

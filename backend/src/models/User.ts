@@ -15,7 +15,7 @@ export interface IUser extends Document {
   role: UserRole;
   skills: string[];
   isAvailable: boolean;
-  garageId?: Types.ObjectId;
+  garageId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -55,8 +55,7 @@ const UserSchema = new Schema<IUser>({
     default: true
   },
   garageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Garage'
+    type: String
   }
 }, { timestamps: true });
 

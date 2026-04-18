@@ -10,7 +10,7 @@ export interface CreateInventoryDTO {
 }
 
 export const createInventorySchema = Joi.object({
-  garageId: Joi.string().required().length(24),
+  garageId: Joi.string().required().length(6).pattern(/^[A-Za-z0-9]{6}$/),
   partName: Joi.string().required().trim(),
   partNumber: Joi.string().required().trim().uppercase(),
   quantity: Joi.number().required().min(0),

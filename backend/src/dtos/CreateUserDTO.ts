@@ -18,5 +18,5 @@ export const createUserSchema = Joi.object({
   phone: Joi.string().required().pattern(/^[0-9]{10}$/),
   role: Joi.string().valid(...Object.values(UserRole)).required(),
   skills: Joi.array().items(Joi.string().trim()),
-  garageId: Joi.string().length(24).optional().allow(null)
+  garageId: Joi.string().length(6).pattern(/^[A-Za-z0-9]{6}$/).optional().allow(null)
 });

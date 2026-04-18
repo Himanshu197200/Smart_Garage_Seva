@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Types } from 'mongoose';
 export interface IVehicle extends Document {
   _id: Types.ObjectId;
   ownerId: Types.ObjectId;
-  garageId: Types.ObjectId;
+  garageId: string;
   registrationNumber: string;
   brand: string;
   modelName: string;
@@ -21,9 +21,10 @@ const VehicleSchema = new Schema<IVehicle>({
     required: [true, 'Owner is required']
   },
   garageId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Garage',
-    required: [true, 'Garage is required']
+    type: String,
+    required: [true, 'Garage is required'],
+    minlength: 6,
+    maxlength: 6
   },
   registrationNumber: {
     type: String,
