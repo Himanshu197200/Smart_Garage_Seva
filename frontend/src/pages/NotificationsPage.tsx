@@ -80,7 +80,7 @@ export default function NotificationsPage() {
         </Paper>
       ) : (
         <Paper elevation={0} sx={{ borderRadius: '8px', overflow: 'hidden' }}>
-          <List disablePadding>
+          <List className="notifications-list" disablePadding>
             {notifications.map((notification, index) => (
               <React.Fragment key={notification._id}>
                 <ListItem

@@ -40,7 +40,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <Box sx={{
+    <Box id="register-page-container" sx={{
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',

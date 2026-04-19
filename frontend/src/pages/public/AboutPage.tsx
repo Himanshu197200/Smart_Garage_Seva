@@ -42,7 +42,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="features-section" style={{ background: '#F8FAFC' }}>
+      <section className="features-section">
         <div className="section-container">
           <h2 className="section-headline">Our Values</h2>
           <div className="values-grid">
@@ -57,7 +57,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="cta-section" style={{ background: 'white' }}>
+      <section className="cta-section">
         <div className="section-container">
           <div className="cta-banner">
             <h2 className="cta-headline">Join our growing team</h2>

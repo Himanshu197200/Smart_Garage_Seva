@@ -35,7 +35,7 @@ export default function LoginPage() {
   };
 
   return (
-    <Box sx={{
+    <Box id="login-page-container" sx={{
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
@@ -70,7 +70,7 @@ export default function LoginPage() {
           <Box component="form" id="login-form" onSubmit={handleSubmit}>
             <TextField
               id="login-email"
-              label="Email address"
+              placeholder="Email address *"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -88,7 +88,7 @@ export default function LoginPage() {
             />
             <TextField
               id="login-password"
-              label="Password"
+              placeholder="Password *"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}

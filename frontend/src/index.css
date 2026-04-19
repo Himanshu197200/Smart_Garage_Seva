@@ -134,3 +134,57 @@ input, select, textarea {
   from { opacity: 0; transform: translateX(16px); }
   to { opacity: 1; transform: translateX(0); }
 }
+
+/* =========================================
+   DASHBOARD DARK THEME OVERRIDES 
+   ========================================= */
+html.theme-dark .dashboard-main-content {
+  background-color: #000000 !important;
+}
+html.theme-dark .dashboard-topbar,
+html.theme-dark .dashboard-mobile-appbar {
+  background-color: #000000 !important;
+  border-bottom: 1px solid #262626 !important;
+}
+html.theme-dark .dashboard-drawer .MuiDrawer-paper {
+  background-color: #0A0A0A !important;
+  border-right: 1px solid #262626 !important;
+}
+html.theme-dark .dashboard-searchbar {
+  background-color: #111111 !important;
+  border: 1px solid #333333 !important;
+}
+html.theme-dark .dashboard-searchbar input {
+  color: #FFFFFF !important;
+}
+html.theme-dark .dashboard-main-content .MuiPaper-root {
+  background-color: #0A0A0A !important;
+  border: 1px solid #262626 !important;
+}
+html.theme-dark .dashboard-main-content .MuiTypography-root,
+html.theme-dark .dashboard-topbar .MuiTypography-root {
+  color: #E5E5E5 !important;
+}
+html.theme-dark .dashboard-main-content .MuiTableCell-root {
+  border-bottom: 1px solid #262626 !important;
+  color: #E5E5E5 !important;
+}
+html.theme-dark .dashboard-main-content .MuiInputBase-root {
+  color: #FFFFFF !important;
+}
+html.theme-dark .dashboard-main-content .MuiOutlinedInput-notchedOutline {
+  border-color: #333333 !important;
+}
+html.theme-dark .dashboard-drawer .MuiTypography-root {
+  color: #E5E5E5 !important;
+}
+html.theme-dark .MuiChip-root {
+  background: #111111;
+  border: 1px solid #333333;
+}
+html.theme-dark .MuiDivider-root {
+  border-color: #262626 !important;
+}
+html.theme-dark .notifications-list .MuiTypography-root {
+  color: #111827 !important;
+}

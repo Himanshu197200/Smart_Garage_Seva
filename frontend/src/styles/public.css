@@ -13,9 +13,9 @@
 }
 
 .section-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 32px;
 }
 
 .public-navbar {
@@ -39,9 +39,9 @@
 }
 
 .navbar-inner {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 32px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -77,17 +77,17 @@
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 .nav-link {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #475569;
-  padding: 8px 16px;
+  padding: 8px 18px;
   border-radius: 6px;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -1071,4 +1071,211 @@
   color: #475569;
   max-width: 540px;
   margin: 0 auto;
+}
+
+/* =========================================
+   DARK THEME OVERRIDES 
+   ========================================= */
+html.theme-dark, 
+html.theme-dark body, 
+html.theme-dark .public-page {
+  background-color: #000000 !important;
+  color: #FFFFFF !important;
+}
+
+/* Navbar */
+html.theme-dark .public-navbar {
+  background: rgba(0, 0, 0, 0.85);
+  border-bottom-color: #262626;
+}
+html.theme-dark .public-navbar.scrolled {
+  border-bottom-color: #262626;
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+}
+html.theme-dark .navbar-title,
+html.theme-dark .navbar-brand,
+html.theme-dark .btn-nav-login {
+  color: #FFFFFF;
+}
+html.theme-dark .nav-link {
+  color: #A3A3A3;
+}
+html.theme-dark .nav-link:hover {
+  color: #EA580C;
+  background: #111111;
+}
+html.theme-dark .mobile-menu-btn {
+  color: #FFFFFF;
+}
+
+/* Sections */
+html.theme-dark .hero-section {
+  background: linear-gradient(180deg, #0A0A0A 0%, #000000 60%);
+}
+html.theme-dark .how-section,
+html.theme-dark .pricing-section,
+html.theme-dark .logos-section,
+html.theme-dark .features-section,
+html.theme-dark .testimonials-section,
+html.theme-dark .cta-section {
+  background: #000000;
+  border-color: #262626;
+}
+
+/* Typography & General */
+html.theme-dark .hero-headline,
+html.theme-dark .section-headline,
+html.theme-dark .feature-title,
+html.theme-dark .step-title,
+html.theme-dark .pricing-name,
+html.theme-dark .testimonial-name {
+  color: #FFFFFF;
+}
+html.theme-dark .hero-subheadline,
+html.theme-dark .section-subtitle,
+html.theme-dark .feature-desc,
+html.theme-dark .step-desc,
+html.theme-dark .pricing-toggle-label,
+html.theme-dark .testimonial-text,
+html.theme-dark .hero-trust {
+  color: #A3A3A3;
+}
+html.theme-dark .logos-row span,
+html.theme-dark .section-eyebrow {
+  color: #EA580C;
+}
+
+/* Cards & Elements */
+html.theme-dark .feature-card,
+html.theme-dark .pricing-card,
+html.theme-dark .testimonial-card {
+  background: #0A0A0A;
+  border-color: #262626;
+}
+html.theme-dark .feature-card:hover,
+html.theme-dark .pricing-card:hover {
+  border-color: #EA580C;
+  background: #111111;
+}
+html.theme-dark .btn-ghost-lg {
+  border-color: #333333;
+  background: #0A0A0A;
+  color: #E5E5E5;
+}
+html.theme-dark .btn-ghost-lg:hover {
+  background: #1A1A1A;
+  border-color: #555555;
+}
+html.theme-dark .pricing-feature {
+  color: #D4D4D4;
+}
+html.theme-dark .testimonial-quote {
+  color: #333333;
+}
+html.theme-dark .page-hero {
+  background: linear-gradient(180deg, #0A0A0A 0%, #000000 100%);
+}
+html.theme-dark .page-hero-title {
+  color: #FFFFFF;
+}
+html.theme-dark .page-hero-sub {
+  color: #A3A3A3;
+}
+
+/* About & Contact Specific */
+html.theme-dark .about-hero {
+  background: #000000;
+}
+html.theme-dark .timeline-section,
+html.theme-dark .contact-section {
+  background: #000000;
+}
+html.theme-dark .timeline-item h3 {
+  color: #FFFFFF;
+}
+html.theme-dark .timeline-content p {
+  color: #A3A3A3;
+}
+html.theme-dark .value-card {
+  background: #0A0A0A;
+  border-color: #262626;
+}
+html.theme-dark .value-title {
+  color: #FFFFFF;
+}
+html.theme-dark .value-desc {
+  color: #A3A3A3;
+}
+
+/* Contact Form Specifics */
+html.theme-dark .contact-info-card {
+  background: #0A0A0A;
+  border-color: #262626;
+}
+html.theme-dark .contact-info-label {
+  color: #FFFFFF;
+}
+html.theme-dark .contact-info-value {
+  color: #A3A3A3;
+}
+html.theme-dark .contact-form {
+  background: #0A0A0A;
+  border-color: #262626;
+}
+html.theme-dark .contact-form h3 {
+  color: #FFFFFF !important;
+}
+html.theme-dark .contact-form label {
+  color: #A3A3A3;
+}
+html.theme-dark .contact-form input,
+html.theme-dark .contact-form select,
+html.theme-dark .contact-form textarea {
+  background: #111111;
+  border-color: #333333;
+  color: #FFFFFF;
+}
+html.theme-dark .contact-form input:focus,
+html.theme-dark .contact-form select:focus,
+html.theme-dark .contact-form textarea:focus {
+  border-color: #EA580C;
+}
+
+/* Auth Pages (MUI Overrides) */
+html.theme-dark #login-page-container,
+html.theme-dark #register-page-container {
+  background-color: #000000 !important;
+}
+html.theme-dark #login-page-container .MuiPaper-root,
+html.theme-dark #register-page-container .MuiPaper-root {
+  background-color: #0A0A0A !important;
+  border: 1px solid #262626;
+}
+html.theme-dark #login-page-container .MuiTypography-root,
+html.theme-dark #register-page-container .MuiTypography-root {
+  color: #E5E5E5 !important;
+}
+html.theme-dark #login-page-container .MuiInputBase-root,
+html.theme-dark #register-page-container .MuiInputBase-root {
+  color: #FFFFFF !important;
+}
+html.theme-dark #login-page-container .MuiOutlinedInput-root,
+html.theme-dark #register-page-container .MuiOutlinedInput-root {
+  background-color: #0A0A0A !important;
+}
+html.theme-dark #login-page-container .MuiOutlinedInput-notchedOutline,
+html.theme-dark #register-page-container .MuiOutlinedInput-notchedOutline {
+  border-color: #333333 !important;
+}
+html.theme-dark #login-page-container .MuiInputLabel-root,
+html.theme-dark #register-page-container .MuiInputLabel-root {
+  color: #A3A3A3 !important;
+}
+html.theme-dark #login-page-container .MuiSvgIcon-root,
+html.theme-dark #register-page-container .MuiSvgIcon-root {
+  color: #A3A3A3;
+}
+html.theme-dark #login-page-container a,
+html.theme-dark #register-page-container a {
+  color: #EA580C !important;
 }

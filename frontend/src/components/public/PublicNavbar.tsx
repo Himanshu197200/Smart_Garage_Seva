@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Wrench, Menu, X } from 'lucide-react';
+import { Wrench, Menu, X, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const links = [
@@ -16,6 +16,20 @@ export default function PublicNavbar() {
   const { isAuthenticated } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  const [isDark, setIsDark] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('theme-dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('theme-dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 20);
@@ -42,6 +56,10 @@ export default function PublicNavbar() {
         </ul>
 
         <div className="navbar-actions">
+          <button onClick={() => setIsDark(!isDark)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8, display: 'flex', alignItems: 'center', color: 'inherit' }}>
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          
           {isAuthenticated ? (
             <Link to="/dashboard" className="btn-get-started">Dashboard →</Link>
           ) : (

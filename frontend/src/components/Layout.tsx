@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   Box, Drawer, List, ListItem, ListItemIcon, ListItemText, ListItemButton,
@@ -13,6 +13,8 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useAuth } from '../contexts/AuthContext';
 
 const DRAWER_WIDTH = 248;
@@ -33,6 +35,20 @@ export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const currentPage = navItems.find(item => location.pathname === item.path)?.label || 'Dashboard';
+
+  const [isDark, setIsDark] = useState(() => {
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('theme-dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('theme-dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
 
   const drawer = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -134,6 +150,7 @@ export default function Layout() {
     <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <AppBar
         position="fixed"
+        className="dashboard-mobile-appbar"
         sx={{
           display: { sm: 'none' },
           background: '#1E293B',
@@ -152,6 +169,7 @@ export default function Layout() {
 
       <Box component="nav" sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}>
         <Drawer
+          className="dashboard-drawer"
           variant="temporary"
           open={mobileOpen}
           onClose={() => setMobileOpen(false)}
@@ -168,6 +186,7 @@ export default function Layout() {
           {drawer}
         </Drawer>
         <Drawer
+          className="dashboard-drawer"
           variant="permanent"
           sx={{
             display: { xs: 'none', sm: 'block' },
@@ -185,6 +204,7 @@ export default function Layout() {
 
       <Box
         component="main"
+        className="dashboard-main-content"
         sx={{
           flexGrow: 1,
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
@@ -195,7 +215,7 @@ export default function Layout() {
           flexDirection: 'column'
         }}
       >
-        <Box sx={{
+        <Box className="dashboard-topbar" sx={{
           height: 64,
           bgcolor: '#FFFFFF',
           borderBottom: '1px solid #E5E7EB',
@@ -208,16 +228,22 @@ export default function Layout() {
             {currentPage}
           </Typography>
 
-          <Box sx={{
-            display: 'flex', alignItems: 'center',
-            gap: 0.75, bgcolor: '#F3F4F6',
-            borderRadius: '8px', px: 1.5, py: 0.5
-          }}>
-            <SearchIcon sx={{ color: '#9CA3AF', fontSize: 18 }} />
-            <InputBase
-              placeholder="Search…"
-              sx={{ fontSize: 13, color: '#111827', width: 200 }}
-            />
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <IconButton onClick={() => setIsDark(!isDark)} sx={{ color: '#9CA3AF' }}>
+              {isDark ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
+            </IconButton>
+
+            <Box className="dashboard-searchbar" sx={{
+              display: 'flex', alignItems: 'center',
+              gap: 0.75, bgcolor: '#F3F4F6',
+              borderRadius: '8px', px: 1.5, py: 0.5
+            }}>
+              <SearchIcon sx={{ color: '#9CA3AF', fontSize: 18 }} />
+              <InputBase
+                placeholder="Search…"
+                sx={{ fontSize: 13, color: '#111827', width: 200 }}
+              />
+            </Box>
           </Box>
         </Box>
 
