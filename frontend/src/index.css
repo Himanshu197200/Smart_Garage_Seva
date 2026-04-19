@@ -12,10 +12,10 @@
   --bg-tertiary: #F3F4F6;
   --bg-sidebar: #1E293B;
 
-  --primary: #2563EB;
-  --primary-hover: #1D4ED8;
-  --primary-light: #EFF6FF;
-  --primary-dark: #1E40AF;
+  --primary: #EA580C;
+  --primary-hover: #C2410C;
+  --primary-light: #FFF7ED;
+  --primary-dark: #9A3412;
 
   --success: #10B981;
   --success-light: #D1FAE5;
@@ -23,8 +23,8 @@
   --warning-light: #FEF3C7;
   --error: #EF4444;
   --error-light: #FEE2E2;
-  --info: #3B82F6;
-  --info-light: #DBEAFE;
+  --info: #F97316;
+  --info-light: #FFEDD5;
 
   --text-primary: #111827;
   --text-secondary: #6B7280;
@@ -33,7 +33,7 @@
 
   --border-default: #E5E7EB;
   --border-hover: #D1D5DB;
-  --border-focus: #2563EB;
+  --border-focus: #EA580C;
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;

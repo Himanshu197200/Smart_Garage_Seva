@@ -54,7 +54,7 @@ function StatCard({ icon, label, value, color, bg, sub }: {
 function JobStatusBadge({ status }: { status: string }) {
   const map: Record<string, { bg: string; color: string; dot: string; label: string }> = {
     CREATED: { bg: '#F3F4F6', color: '#4B5563', dot: '#6B7280', label: 'Created' },
-    ASSIGNED: { bg: '#DBEAFE', color: '#1E40AF', dot: '#2563EB', label: 'Assigned' },
+    ASSIGNED: { bg: '#FFEDD5', color: '#9A3412', dot: '#EA580C', label: 'Assigned' },
     IN_PROGRESS: { bg: '#FEF3C7', color: '#92400E', dot: '#F59E0B', label: 'In Progress' },
     COMPLETED: { bg: '#D1FAE5', color: '#065F46', dot: '#10B981', label: 'Completed' },
     DELIVERED: { bg: '#EDE9FE', color: '#5B21B6', dot: '#8B5CF6', label: 'Delivered' }
@@ -126,8 +126,8 @@ export default function DashboardPage() {
       </Box>
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
-        <StatCard icon={<DirectionsCarIcon />} label="My Vehicles" value={vehicles.length} color="#2563EB" bg="#EFF6FF" sub="Registered vehicles" />
-        <StatCard icon={<BuildIcon />} label="Active Jobs" value={activeJobs.length} color="#3B82F6" bg="#DBEAFE" sub="Pending completion" />
+        <StatCard icon={<DirectionsCarIcon />} label="My Vehicles" value={vehicles.length} color="#EA580C" bg="#FFF7ED" sub="Registered vehicles" />
+        <StatCard icon={<BuildIcon />} label="Active Jobs" value={activeJobs.length} color="#F97316" bg="#FFEDD5" sub="Pending completion" />
         <StatCard icon={<InventoryIcon />} label="Low Stock" value={lowStock.length} color="#F59E0B" bg="#FEF3C7" sub="Items below threshold" />
         <StatCard icon={<NotificationsActiveIcon />} label="Notifications" value={unreadCount} color="#10B981" bg="#D1FAE5" sub="Unread alerts" />
       </Box>
@@ -188,10 +188,10 @@ export default function DashboardPage() {
                 }}>
                   <Box sx={{
                     width: 36, height: 36, borderRadius: '8px',
-                    background: '#EFF6FF',
+                    background: '#FFF7ED',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
                   }}>
-                    <DirectionsCarIcon sx={{ fontSize: 18, color: '#2563EB' }} />
+                    <DirectionsCarIcon sx={{ fontSize: 18, color: '#EA580C' }} />
                   </Box>
                   <Box>
                     <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>

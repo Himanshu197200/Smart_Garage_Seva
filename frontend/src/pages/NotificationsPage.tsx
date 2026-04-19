@@ -11,8 +11,8 @@ import { notificationService } from '../services/notificationService';
 import { Notification } from '../types';
 
 const TYPE_COLORS: Record<string, string> = {
-  JOB_STATUS_UPDATE: '#2563EB',
-  SERVICE_REMINDER: '#3B82F6',
+  JOB_STATUS_UPDATE: '#EA580C',
+  SERVICE_REMINDER: '#F97316',
   LOW_INVENTORY_ALERT: '#D97706',
   RECOMMENDATION_ALERT: '#10B981',
   JOB_ASSIGNED: '#8B5CF6',
@@ -20,8 +20,8 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 const TYPE_BG: Record<string, string> = {
-  JOB_STATUS_UPDATE: '#EFF6FF',
-  SERVICE_REMINDER: '#DBEAFE',
+  JOB_STATUS_UPDATE: '#FFF7ED',
+  SERVICE_REMINDER: '#FFEDD5',
   LOW_INVENTORY_ALERT: '#FEF3C7',
   RECOMMENDATION_ALERT: '#D1FAE5',
   JOB_ASSIGNED: '#EDE9FE',
@@ -65,7 +65,7 @@ export default function NotificationsPage() {
           </Typography>
         </Box>
         {unread > 0 && (
-          <Button startIcon={<DoneAllIcon />} onClick={handleMarkAll} sx={{ color: '#2563EB' }}>
+          <Button startIcon={<DoneAllIcon />} onClick={handleMarkAll} sx={{ color: '#EA580C' }}>
             Mark all as read
           </Button>
         )}
@@ -87,15 +87,15 @@ export default function NotificationsPage() {
                   alignItems="flex-start"
                   sx={{
                     py: 2, px: 2.5,
-                    background: notification.isRead ? '#FFFFFF' : '#EFF6FF',
-                    '&:hover': { background: notification.isRead ? '#F9FAFB' : '#DBEAFE' },
+                    background: notification.isRead ? '#FFFFFF' : '#FFF7ED',
+                    '&:hover': { background: notification.isRead ? '#F9FAFB' : '#FFEDD5' },
                     transition: 'background 0.15s'
                   }}
                   secondaryAction={
                     <Box sx={{ display: 'flex', gap: 0.5 }}>
                       {!notification.isRead && (
                         <Tooltip title="Mark as read">
-                          <IconButton size="small" onClick={() => handleMarkRead(notification._id)} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}>
+                          <IconButton size="small" onClick={() => handleMarkRead(notification._id)} sx={{ color: '#9CA3AF', '&:hover': { color: '#EA580C' } }}>
                             <DoneAllIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
@@ -110,7 +110,7 @@ export default function NotificationsPage() {
                 >
                   <ListItemIcon sx={{ minWidth: 32, mt: 0.5 }}>
                     {!notification.isRead ? (
-                      <FiberManualRecordIcon sx={{ fontSize: 10, color: '#2563EB', mt: 0.75 }} />
+                      <FiberManualRecordIcon sx={{ fontSize: 10, color: '#EA580C', mt: 0.75 }} />
                     ) : (
                       <Box sx={{ width: 10 }} />
                     )}

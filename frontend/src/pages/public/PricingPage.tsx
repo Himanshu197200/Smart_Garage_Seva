@@ -78,7 +78,7 @@ export default function PricingPage() {
               onClick={() => setAnnual(!annual)}
               style={{
                 width: 48, height: 26, borderRadius: 13, border: 'none',
-                background: annual ? '#2563EB' : '#CBD5E1', cursor: 'pointer',
+                background: annual ? '#EA580C' : '#CBD5E1', cursor: 'pointer',
                 position: 'relative', transition: 'background 0.2s'
               }}
             >
@@ -119,9 +119,9 @@ export default function PricingPage() {
                   className="btn-get-started"
                   style={{
                     width: '100%', justifyContent: 'center',
-                    background: plan.featured ? '#2563EB' : 'transparent',
-                    color: plan.featured ? 'white' : '#2563EB',
-                    border: plan.featured ? 'none' : '1px solid #2563EB'
+                    background: plan.featured ? '#EA580C' : 'transparent',
+                    color: plan.featured ? 'white' : '#EA580C',
+                    border: plan.featured ? 'none' : '1px solid #EA580C'
                   }}
                 >
                   {plan.cta} <ArrowRight size={16} />

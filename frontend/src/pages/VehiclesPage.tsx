@@ -25,10 +25,10 @@ function VehicleCard({ vehicle, onEdit, onDelete }: {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box sx={{
             width: 44, height: 44, borderRadius: '8px',
-            background: '#EFF6FF',
+            background: '#FFF7ED',
             display: 'flex', alignItems: 'center', justifyContent: 'center'
           }}>
-            <DirectionsCarIcon sx={{ color: '#2563EB', fontSize: 22 }} />
+            <DirectionsCarIcon sx={{ color: '#EA580C', fontSize: 22 }} />
           </Box>
           <Box>
             <Typography sx={{ fontWeight: 600, fontSize: 14, color: '#111827' }}>
@@ -36,7 +36,7 @@ function VehicleCard({ vehicle, onEdit, onDelete }: {
             </Typography>
             <Box sx={{
               display: 'inline-flex', px: '8px', py: '2px',
-              borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+              borderRadius: '9999px', bgcolor: '#FFEDD5', color: '#9A3412',
               fontSize: 11, fontWeight: 500
             }}>
               {vehicle.registrationNumber}
@@ -45,7 +45,7 @@ function VehicleCard({ vehicle, onEdit, onDelete }: {
         </Box>
         <Box>
           <Tooltip title="Edit">
-            <IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}>
+            <IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#EA580C' } }}>
               <EditIcon fontSize="small" />
             </IconButton>
           </Tooltip>
@@ -128,7 +128,7 @@ export default function VehiclesPage() {
           <Typography sx={{ color: '#6B7280', mt: 0.5, fontSize: 14 }}>Manage your registered vehicles</Typography>
         </Box>
         <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}
-          sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
+          sx={{ bgcolor: '#EA580C', '&:hover': { bgcolor: '#C2410C' } }}>
           Add Vehicle
         </Button>
       </Box>
@@ -140,7 +140,7 @@ export default function VehiclesPage() {
           <DirectionsCarIcon sx={{ fontSize: 56, color: '#D1D5DB', mb: 2 }} />
           <Typography sx={{ fontWeight: 600, fontSize: 18, color: '#6B7280' }}>No vehicles registered</Typography>
           <Typography sx={{ color: '#9CA3AF', mb: 3, fontSize: 14 }}>Add your first vehicle to get started</Typography>
-          <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd} sx={{ bgcolor: '#2563EB' }}>Add Vehicle</Button>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd} sx={{ bgcolor: '#EA580C' }}>Add Vehicle</Button>
         </Paper>
       ) : (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2,1fr)', lg: 'repeat(3,1fr)' }, gap: 2 }}>
@@ -165,7 +165,7 @@ export default function VehiclesPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setDialogOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#2563EB' }}>
+          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#EA580C' }}>
             {saving ? <CircularProgress size={18} color="inherit" /> : (editVehicle ? 'Save Changes' : 'Register')}
           </Button>
         </DialogActions>

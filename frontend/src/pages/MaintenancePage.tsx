@@ -18,7 +18,7 @@ interface VehicleRecs {
 const PRIORITY_STYLES: Record<string, { bg: string; color: string; chipColor: 'error' | 'warning' | 'info' }> = {
   HIGH: { bg: '#FEE2E2', color: '#991B1B', chipColor: 'error' },
   MEDIUM: { bg: '#FEF3C7', color: '#92400E', chipColor: 'warning' },
-  LOW: { bg: '#DBEAFE', color: '#1E40AF', chipColor: 'info' }
+  LOW: { bg: '#FFEDD5', color: '#9A3412', chipColor: 'info' }
 };
 
 const PRIORITY_SCORE: Record<string, number> = { HIGH: 100, MEDIUM: 66, LOW: 33 };
@@ -115,7 +115,7 @@ export default function MaintenancePage() {
 
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 3 }}>
         <Paper elevation={0} sx={{ p: '20px', borderRadius: '8px', textAlign: 'center', flex: '1 1 180px' }}>
-          <Typography sx={{ fontWeight: 700, fontSize: 36, color: '#2563EB' }}>{data.length}</Typography>
+          <Typography sx={{ fontWeight: 700, fontSize: 36, color: '#EA580C' }}>{data.length}</Typography>
           <Typography sx={{ color: '#6B7280', fontSize: 14 }}>Vehicles Analysed</Typography>
         </Paper>
         <Paper elevation={0} sx={{ p: '20px', borderRadius: '8px', textAlign: 'center', flex: '1 1 180px' }}>
@@ -151,13 +151,13 @@ export default function MaintenancePage() {
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 2.5 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                  <DirectionsCarIcon sx={{ color: '#2563EB', fontSize: 20 }} />
+                  <DirectionsCarIcon sx={{ color: '#EA580C', fontSize: 20 }} />
                   <Typography sx={{ fontWeight: 600, fontSize: 15, color: '#111827' }}>
                     {item.vehicle}
                   </Typography>
                   <Box sx={{
                     display: 'inline-flex', px: '8px', py: '2px',
-                    borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+                    borderRadius: '9999px', bgcolor: '#FFEDD5', color: '#9A3412',
                     fontSize: 11, fontWeight: 500
                   }}>
                     {item.recommendations.length} recs

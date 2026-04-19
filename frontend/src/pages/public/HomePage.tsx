@@ -6,11 +6,11 @@ import {
 } from 'lucide-react';
 
 const features = [
-  { icon: <Wrench size={24} />, title: 'Service Job Tracking', desc: 'Track jobs from creation to delivery with real-time status updates and seamless workflow management.', bg: '#EFF6FF', color: '#2563EB' },
+  { icon: <Wrench size={24} />, title: 'Service Job Tracking', desc: 'Track jobs from creation to delivery with real-time status updates and seamless workflow management.', bg: '#FFF7ED', color: '#EA580C' },
   { icon: <Package size={24} />, title: 'Inventory Management', desc: 'Never run out of parts with smart low-stock alerts, automated tracking, and usage analytics.', bg: '#D1FAE5', color: '#059669' },
   { icon: <Users size={24} />, title: 'Customer Management', desc: 'Build lasting relationships with complete vehicle history, service records, and communication tools.', bg: '#EDE9FE', color: '#7C3AED' },
   { icon: <Bell size={24} />, title: 'Smart Notifications', desc: 'Stay updated with real-time alerts for job assignments, status changes, and low inventory warnings.', bg: '#FEF3C7', color: '#D97706' },
-  { icon: <BarChart3 size={24} />, title: 'Predictive Maintenance', desc: 'AI-powered recommendations to predict service needs before breakdowns happen.', bg: '#DBEAFE', color: '#2563EB' },
+  { icon: <BarChart3 size={24} />, title: 'Predictive Maintenance', desc: 'AI-powered recommendations to predict service needs before breakdowns happen.', bg: '#FFEDD5', color: '#EA580C' },
   { icon: <Shield size={24} />, title: 'Role-Based Access', desc: 'Secure dashboards for Admins, Mechanics, and Customers — each with tailored views and permissions.', bg: '#FEE2E2', color: '#DC2626' }
 ];
 
@@ -64,14 +64,7 @@ export default function HomePage() {
             <span><CheckCircle size={14} color="#10B981" /> Cancel anytime</span>
           </div>
           <div className="hero-image-wrap">
-            <div style={{
-              height: 400, background: 'linear-gradient(135deg, #1E293B, #334155)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'rgba(255,255,255,0.15)', fontSize: 80, fontWeight: 800,
-              fontFamily: 'Plus Jakarta Sans, sans-serif', letterSpacing: -2
-            }}>
-              SGS
-            </div>
+            <img src="/hero-dashboard.png" alt="Smart Garage Seva Dashboard" style={{ width: '100%', display: 'block', height: 'auto', objectFit: 'cover' }} />
           </div>
         </div>
       </section>

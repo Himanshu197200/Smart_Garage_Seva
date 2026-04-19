@@ -33,7 +33,7 @@ function InventoryCard({ item, onEdit, onDelete, onStock, isAdmin }: {
           </Box>
           <Box sx={{
             display: 'inline-flex', px: '8px', py: '2px',
-            borderRadius: '9999px', bgcolor: '#DBEAFE', color: '#1E40AF',
+            borderRadius: '9999px', bgcolor: '#FFEDD5', color: '#9A3412',
             fontSize: 11, fontWeight: 500
           }}>
             # {item.partNumber}
@@ -41,7 +41,7 @@ function InventoryCard({ item, onEdit, onDelete, onStock, isAdmin }: {
         </Box>
         {isAdmin && (
           <Box>
-            <Tooltip title="Edit"><IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#2563EB' } }}><EditIcon fontSize="small" /></IconButton></Tooltip>
+            <Tooltip title="Edit"><IconButton size="small" onClick={onEdit} sx={{ color: '#9CA3AF', '&:hover': { color: '#EA580C' } }}><EditIcon fontSize="small" /></IconButton></Tooltip>
             <Tooltip title="Delete"><IconButton size="small" onClick={onDelete} sx={{ color: '#9CA3AF', '&:hover': { color: '#EF4444' } }}><DeleteIcon fontSize="small" /></IconButton></Tooltip>
           </Box>
         )}
@@ -62,7 +62,7 @@ function InventoryCard({ item, onEdit, onDelete, onStock, isAdmin }: {
       </Box>
       <LinearProgress variant="determinate" value={stockPercent} color={isLow ? 'warning' : 'success'} sx={{ borderRadius: 4, height: 5 }} />
       {isAdmin && (
-        <Button size="small" onClick={onStock} sx={{ color: '#2563EB', fontSize: 12, mt: 1.5, px: 0 }}>Update Stock</Button>
+        <Button size="small" onClick={onStock} sx={{ color: '#EA580C', fontSize: 12, mt: 1.5, px: 0 }}>Update Stock</Button>
       )}
     </Paper>
   );
@@ -130,7 +130,7 @@ export default function InventoryPage() {
         </Box>
         {isAdmin && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={openAdd}
-            sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
+            sx={{ bgcolor: '#EA580C', '&:hover': { bgcolor: '#C2410C' } }}>
             Add Part
           </Button>
         )}
@@ -168,7 +168,7 @@ export default function InventoryPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setDialogOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
+          <Button variant="contained" onClick={handleSave} disabled={saving} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
         </DialogActions>
       </Dialog>
 
@@ -179,7 +179,7 @@ export default function InventoryPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setStockOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleStock} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
+          <Button variant="contained" onClick={handleStock} disabled={saving} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -52,7 +52,7 @@ export default function RegisterPage() {
         <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Box sx={{
             width: 48, height: 48, borderRadius: '12px',
-            background: '#2563EB',
+            background: '#EA580C',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             mx: 'auto', mb: 2
           }}>
@@ -110,8 +110,8 @@ export default function RegisterPage() {
               disabled={loading}
               sx={{
                 py: 1.4, mt: 1,
-                bgcolor: '#2563EB',
-                '&:hover': { bgcolor: '#1D4ED8' },
+                bgcolor: '#EA580C',
+                '&:hover': { bgcolor: '#C2410C' },
                 fontSize: 14,
                 fontWeight: 600
               }}
@@ -123,7 +123,7 @@ export default function RegisterPage() {
 
         <Typography variant="body2" align="center" sx={{ mt: 3, color: '#6B7280' }}>
           Already have an account?{' '}
-          <Link to="/login" style={{ color: '#2563EB', fontWeight: 600 }}>
+          <Link to="/login" style={{ color: '#EA580C', fontWeight: 600 }}>
             Sign in
           </Link>
         </Typography>

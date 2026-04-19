@@ -11,9 +11,9 @@ const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#2563EB',
-      dark: '#1D4ED8',
-      light: '#3B82F6'
+      main: '#EA580C',
+      dark: '#C2410C',
+      light: '#F97316'
     },
     secondary: {
       main: '#8B5CF6'
@@ -29,7 +29,7 @@ const theme = createTheme({
     success: { main: '#10B981', light: '#D1FAE5' },
     warning: { main: '#F59E0B', light: '#FEF3C7' },
     error: { main: '#EF4444', light: '#FEE2E2' },
-    info: { main: '#3B82F6', light: '#DBEAFE' },
+    info: { main: '#F97316', light: '#FFEDD5' },
     divider: '#E5E7EB'
   },
   typography: {
@@ -77,7 +77,7 @@ const theme = createTheme({
               borderColor: '#9CA3AF'
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#2563EB',
+              borderColor: '#EA580C',
               borderWidth: 2,
               boxShadow: '0 0 0 3px rgba(37, 99, 235, 0.1)'
             }

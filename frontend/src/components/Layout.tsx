@@ -39,7 +39,7 @@ export default function Layout() {
       <Box sx={{ px: 2.5, py: 2.5, display: 'flex', alignItems: 'center', gap: 1.5 }}>
         <Box sx={{
           width: 36, height: 36, borderRadius: '8px',
-          background: '#2563EB',
+          background: '#EA580C',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0
         }}>
@@ -74,7 +74,7 @@ export default function Layout() {
                   borderRadius: '6px',
                   py: 0.9,
                   px: 1.5,
-                  borderLeft: active ? '3px solid #2563EB' : '3px solid transparent',
+                  borderLeft: active ? '3px solid #EA580C' : '3px solid transparent',
                   background: active ? 'rgba(37, 99, 235, 0.12)' : 'transparent',
                   '&:hover': {
                     background: active ? 'rgba(37, 99, 235, 0.15)' : 'rgba(255,255,255,0.06)'
@@ -82,7 +82,7 @@ export default function Layout() {
                   transition: 'all 0.15s ease'
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 34, color: active ? '#3B82F6' : '#94A3B8' }}>
+                <ListItemIcon sx={{ minWidth: 34, color: active ? '#F97316' : '#94A3B8' }}>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText
@@ -107,7 +107,7 @@ export default function Layout() {
           background: 'rgba(255,255,255,0.05)'
         }}>
           <Avatar sx={{
-            width: 32, height: 32, bgcolor: '#2563EB',
+            width: 32, height: 32, bgcolor: '#EA580C',
             fontSize: 13, fontWeight: 700
           }}>
             {user?.name?.charAt(0).toUpperCase()}

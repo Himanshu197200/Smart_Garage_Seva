@@ -15,7 +15,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const STATUS_MAP: Record<string, { bg: string; color: string; dot: string; label: string }> = {
   CREATED: { bg: '#F3F4F6', color: '#4B5563', dot: '#6B7280', label: 'Created' },
-  ASSIGNED: { bg: '#DBEAFE', color: '#1E40AF', dot: '#2563EB', label: 'Assigned' },
+  ASSIGNED: { bg: '#FFEDD5', color: '#9A3412', dot: '#EA580C', label: 'Assigned' },
   IN_PROGRESS: { bg: '#FEF3C7', color: '#92400E', dot: '#F59E0B', label: 'In Progress' },
   COMPLETED: { bg: '#D1FAE5', color: '#065F46', dot: '#10B981', label: 'Completed' },
   DELIVERED: { bg: '#EDE9FE', color: '#5B21B6', dot: '#8B5CF6', label: 'Delivered' }
@@ -70,13 +70,13 @@ function JobCard({ job, onAssign, onStatusChange, onEstimate, userRole }: {
       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
         {userRole === 'ADMIN' && job.status === 'CREATED' && (
           <Button size="small" startIcon={<AssignmentIndIcon />} variant="outlined" onClick={onAssign}
-            sx={{ borderColor: '#D1D5DB', color: '#2563EB', fontSize: 12, '&:hover': { borderColor: '#2563EB', bgcolor: '#EFF6FF' } }}>
+            sx={{ borderColor: '#D1D5DB', color: '#EA580C', fontSize: 12, '&:hover': { borderColor: '#EA580C', bgcolor: '#FFF7ED' } }}>
             Assign
           </Button>
         )}
         {(userRole === 'ADMIN' || userRole === 'MECHANIC') && job.status !== 'DELIVERED' && (
           <Button size="small" startIcon={<ArrowForwardIcon />} variant="outlined" onClick={onStatusChange}
-            sx={{ borderColor: '#D1D5DB', color: '#3B82F6', fontSize: 12, '&:hover': { borderColor: '#3B82F6', bgcolor: '#DBEAFE' } }}>
+            sx={{ borderColor: '#D1D5DB', color: '#F97316', fontSize: 12, '&:hover': { borderColor: '#F97316', bgcolor: '#FFEDD5' } }}>
             Update Status
           </Button>
         )}
@@ -158,7 +158,7 @@ export default function ServiceJobsPage() {
         </Box>
         {user?.role === 'CUSTOMER' && (
           <Button variant="contained" startIcon={<AddIcon />} onClick={() => { setCreateForm({ vehicleId: '', garageId: '', problemDescription: '' }); setError(''); setCreateOpen(true); }}
-            sx={{ bgcolor: '#2563EB', '&:hover': { bgcolor: '#1D4ED8' } }}>
+            sx={{ bgcolor: '#EA580C', '&:hover': { bgcolor: '#C2410C' } }}>
             New Request
           </Button>
         )}
@@ -193,7 +193,7 @@ export default function ServiceJobsPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setCreateOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleCreate} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Submit'}</Button>
+          <Button variant="contained" onClick={handleCreate} disabled={saving} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Submit'}</Button>
         </DialogActions>
       </Dialog>
 
@@ -204,7 +204,7 @@ export default function ServiceJobsPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setAssignOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleAssign} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Assign'}</Button>
+          <Button variant="contained" onClick={handleAssign} disabled={saving} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Assign'}</Button>
         </DialogActions>
       </Dialog>
 
@@ -220,7 +220,7 @@ export default function ServiceJobsPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setStatusOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleStatus} disabled={saving || !transitions.length} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
+          <Button variant="contained" onClick={handleStatus} disabled={saving || !transitions.length} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Update'}</Button>
         </DialogActions>
       </Dialog>
 
@@ -231,7 +231,7 @@ export default function ServiceJobsPage() {
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2.5 }}>
           <Button onClick={() => setEstimateOpen(false)} sx={{ color: '#6B7280' }}>Cancel</Button>
-          <Button variant="contained" onClick={handleEstimate} disabled={saving} sx={{ bgcolor: '#2563EB' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
+          <Button variant="contained" onClick={handleEstimate} disabled={saving} sx={{ bgcolor: '#EA580C' }}>{saving ? <CircularProgress size={18} color="inherit" /> : 'Save'}</Button>
         </DialogActions>
       </Dialog>
     </Box>
