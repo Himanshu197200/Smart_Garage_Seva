@@ -7,8 +7,11 @@ import {
 import BuildIcon from '@mui/icons-material/Build';
 import { authService } from '../services/authService';
 
+import { useAuth } from '../contexts/AuthContext';
+
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({
     name: '', email: '', password: '', phone: '', role: 'CUSTOMER', garageId: ''
   });
@@ -27,7 +30,8 @@ export default function RegisterPage() {
       const payload = { ...form };
       if (!payload.garageId) delete (payload as any).garageId;
       await authService.register(payload);
-      navigate('/login');
+      await login(form.email, form.password);
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {
