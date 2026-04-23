@@ -103,6 +103,29 @@ npm run dev
 ```
 Navigate to `http://localhost:3000` to view the application.
 
+### 4. Running Automated Tests
+The backend implements a highly thorough **Jest** testing suite enforcing precise correctness for our deployed Design Patterns (testing State Machine transitions, Strategy validations, and Observer broadcasts).
+
+```bash
+cd backend
+npm run test
+```
+
+---
+
+## Core API Reference
+
+Here is a brief structural overview of the primary REST architecture exposed by the Express API:
+
+| Endpoint | Method | Description | Role Required |
+|----------|--------|-------------|---------------|
+| `/api/auth/register` | `POST` | Registers a new system account | Public |
+| `/api/auth/login` | `POST` | Exchanges credentials for a JWT auth token | Public |
+| `/api/jobs` | `POST` | Provisions a new Service Job state machine | Admin |
+| `/api/jobs/:id/status`| `PATCH`| Transitions a job state according to strict rules | Admin, Mechanic |
+| `/api/inventory` | `GET` | Retrieves full stock/parts list | Admin, Mechanic |
+| `/api/notifications` | `GET` | Receives all real-time alerts for the local user | Any Auth User |
+
 ---
 
 ## Production Deployment Guide
@@ -155,6 +178,13 @@ Smart_Garage_Seva/
 │   └── package.json
 └── README.md
 ```
+
+## System Diagrams
+For a deeper look into the system's structural and behavioral design, please view the following documentation:
+- [Entity-Relationship (ER) Diagram](./ErDiagram.md)
+- [Class Diagram](./classDiagram.md)
+- [Sequence Diagram](./sequenceDiagram.md)
+- [Use Case Diagram](./useCaseDiagram.md)
 
 ## License
 This project is proprietary software built to revolutionize the Indian automotive garage space.
